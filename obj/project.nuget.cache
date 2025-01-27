@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "DjCxYWBg5d7iZ2Uvga4dVaHA+DaZ8J1RgrluZCRsVw5PyMT0PEv1ecm/FFw9gUEKOyF6AY4sBcV06dxnUVxqdg==",
+  "dgSpecHash": "jydns39t+LZUx19XEpAkPlY/Z1XL8PzpW5Cb7pibnWxmaRXo4mY+4Mkax6w19uirSM9MY8dNQhCveKAjEvABdg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\55119\\MyProjetos\\aula60\\aula61\\Instagram\\Instagram.API\\Instagram.API.csproj",
+  "projectFilePath": "C:\\Users\\55119\\MyProjetos\\InstagramProjeto\\InstagramApi\\Instagram.API\\Instagram.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\55119\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\55119\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

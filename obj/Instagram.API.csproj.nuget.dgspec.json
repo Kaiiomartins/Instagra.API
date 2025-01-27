@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\55119\\MyProjetos\\aula60\\aula61\\Instagram\\Instagram.API\\Instagram.API.csproj": {}
+    "C:\\Users\\55119\\MyProjetos\\InstagramProjeto\\InstagramApi\\Instagram.API\\Instagram.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\55119\\MyProjetos\\aula60\\aula61\\Instagram\\Instagram.API\\Instagram.API.csproj": {
+    "C:\\Users\\55119\\MyProjetos\\InstagramProjeto\\InstagramApi\\Instagram.API\\Instagram.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\55119\\MyProjetos\\aula60\\aula61\\Instagram\\Instagram.API\\Instagram.API.csproj",
+        "projectUniqueName": "C:\\Users\\55119\\MyProjetos\\InstagramProjeto\\InstagramApi\\Instagram.API\\Instagram.API.csproj",
         "projectName": "Instagram.API",
-        "projectPath": "C:\\Users\\55119\\MyProjetos\\aula60\\aula61\\Instagram\\Instagram.API\\Instagram.API.csproj",
+        "projectPath": "C:\\Users\\55119\\MyProjetos\\InstagramProjeto\\InstagramApi\\Instagram.API\\Instagram.API.csproj",
         "packagesPath": "C:\\Users\\55119\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\55119\\MyProjetos\\aula60\\aula61\\Instagram\\Instagram.API\\obj\\",
+        "outputPath": "C:\\Users\\55119\\MyProjetos\\InstagramProjeto\\InstagramApi\\Instagram.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

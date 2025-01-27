@@ -2,9 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Instagram.API.Data;
 using Instagram.API.Model;
-using System.Data;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.Identity.Client;
 
 namespace Instagram.API.Controllers
 {
@@ -12,67 +9,77 @@ namespace Instagram.API.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private readonly AppDbContext _context;
 
-        private List<User> users = new List<User>();
+        // Injeção de dependência do DbContext
+        public UsersController(AppDbContext context)
+        {
+            _context = context;
+        }
 
         [HttpGet]
-        public async Task<IActionResult> getUser(int id)
+        public async Task<IActionResult> GetUser(int id)
         {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
 
-            var user = users.FirstOrDefault(x => x.Id == id);
-
-            if (user == null) {
-                return BadRequest("Usuario não encontrado");
+            if (user == null)
+            {
+                return BadRequest("Usuário não encontrado");
             }
+
             return Ok(user);
         }
 
-
         [HttpPost]
-        public async Task<IActionResult> createUser([FromBody] User user)  {
-
-            if (users.Any(u => u.Id == user.Id)) {
-                return BadRequest("Já existe esse funcionario");
+        public async Task<IActionResult> CreateUser([FromBody] User user)
+        {
+            if (await _context.Users.AnyAsync(u => u.Id == user.Id))
+            {
+                return BadRequest("Já existe esse usuário");
             }
-            users.Add(user);
 
-            return CreatedAtAction(nameof(getUser), new { id = user.Id }, user);
-}
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
+        }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateUser([FromBody]User user) {
+        public async Task<IActionResult> UpdateUser([FromBody] User user)
+        {
+            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
 
-            var usuario = users.FirstOrDefault(u => u.Id == user.Id);
-
-            if (usuario == null) {
-                return NotFound("Usuario não encontrado"); ;
+            if (existingUser == null)
+            {
+                return NotFound("Usuário não encontrado");
             }
-            usuario.UserName = user.UserName;
-            usuario.email = user.email;
-            usuario.DataNascimento = user.DataNascimento;
-            usuario.Passaword = user.Passaword;
-            
-            return Ok("Usuário atualizado com sucesso");
 
+           
+            existingUser.UserName = user.UserName;
+            existingUser.Email = user.Email;
+            existingUser.DataNascimento = user.DataNascimento;
+            existingUser.Password = user.Password;
+            existingUser.UpdatedAt = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+
+            return Ok("Usuário atualizado com sucesso");
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete( int id) {
+        public async Task<IActionResult> Delete(int id)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
 
-
-            var usuario = users.FirstOrDefault(u => u.Id == id);
-
-            if (usuario == null) {
-                return NotFound("Usuario não encontrado");
+            if (user == null)
+            {
+                return NotFound("Usuário não encontrado");
             }
-            users.Remove(usuario);
 
-            return Ok("Usuario deletado com sucesso");
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+
+            return Ok("Usuário deletado com sucesso");
         }
-
-
-            
-        }
-
     }
-
+}

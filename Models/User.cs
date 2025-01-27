@@ -7,14 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Instagram.API.Model
 {
-    
+
     [Table ("Users")]
     public class User 
     {
         [Key]
         public  int Id { get; set; }
 
-        [Required]
+        
         [StringLength(11)]
         public string cpf { get; set; }
 
@@ -25,17 +25,35 @@ namespace Instagram.API.Model
 
         [Required]
         [StringLength(255)]
-        public string Passaword { get; set; }
+        public string Password { get; set; }
 
         [StringLength(255)]
-        public string email { get; set;  }
+        public string Email { get; set;  }
 
 
-        public string DataNascimento { get; set; }
+        public DateTime? DataNascimento { get; set; }
 
-        public DataSetDateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
-        public   DateTime ? UpatetedAt { get; set; } = DateTime.Now;
+        public   DateTime ? UpdatedAt { get; set; } = DateTime.Now;
 
+
+        public string GetDataNascimentoFormatted()
+        {
+            return DataNascimento?.ToString("dd/MM/yyyy") ?? string.Empty;
+        }
+
+        public string GetCreatedAtFormatted()
+        {
+            return CreatedAt?.ToString("dd/MM/yyyy") ?? string.Empty;
+        }
+
+        public string GetUpdatedAtFormatted()
+        {
+            return UpdatedAt?.ToString("dd/MM/yyyy") ?? string.Empty;
+        }
     }
+
+
 }
+
