@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Instagram.API.Data;
 using Instagram.API.Model;
+using Instagram.API.Services;
 
 namespace Instagram.API.Controllers
 {
@@ -9,37 +10,39 @@ namespace Instagram.API.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly UserService _userService;
 
-        // Injeção de dependência do DbContext
-        public UsersController(AppDbContext context)
+        public UsersController(UserService userService)
         {
-            _context = context;
+            _userService = userService;
         }
-
+         
         [HttpGet]
         public async Task<IActionResult> GetUser(int id)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            var user = await _userService.GetUser(id);
 
             if (user == null)
             {
-                return BadRequest("Usuário não encontrado");
+                return BadRequest("Usuário não encontrado"); 
             }
 
             return Ok(user);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] User user)
+        public async Task<IActionResult> CreateUsers([FromBody] User user)
         {
-            if (await _context.Users.AnyAsync(u => u.Id == user.Id))
+            var existingUser = await _userService.GetUserByUsernameOrEmail(user.UserName, user.Email);
+
+
+            if (existingUser != null)
             {
                 return BadRequest("Já existe esse usuário");
             }
 
-            await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
+          var createdUser = await _userService.CreateUser(user);
+            
 
             return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
         }
@@ -47,7 +50,7 @@ namespace Instagram.API.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody] User user)
         {
-            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+            var existingUser = await _userService.Update(user);
 
             if (existingUser == null)
             {
@@ -61,7 +64,7 @@ namespace Instagram.API.Controllers
             existingUser.Password = user.Password;
             existingUser.UpdatedAt = DateTime.Now;
 
-            await _context.SaveChangesAsync();
+           
 
             return Ok("Usuário atualizado com sucesso");
         }
@@ -69,15 +72,15 @@ namespace Instagram.API.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            var user = await _userService.GetUser(id);
 
             if (user == null)
             {
                 return NotFound("Usuário não encontrado");
             }
 
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
+           await _userService.DeleteUser(id);
+            
 
             return Ok("Usuário deletado com sucesso");
         }

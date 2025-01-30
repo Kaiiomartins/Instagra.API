@@ -1,4 +1,6 @@
 using Instagram.API.Data;
+using Instagram.API.Repositorio;
+using Instagram.API.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();  
+builder.Services.AddScoped<UserService>();
 
 // Configuração do CORS
 builder.Services.AddCors(options =>
