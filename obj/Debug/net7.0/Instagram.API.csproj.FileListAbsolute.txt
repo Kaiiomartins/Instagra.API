@@ -150,3 +150,14 @@ C:\Users\55119\MyProjetos\InstagramProjeto\InstagramApi\Instagram.API\obj\Debug\
 C:\Users\55119\MyProjetos\InstagramProjeto\InstagramApi\Instagram.API\obj\Debug\net7.0\Instagram.API.genruntimeconfig.cache
 C:\Users\55119\MyProjetos\InstagramProjeto\InstagramApi\Instagram.API\obj\Debug\net7.0\ref\Instagram.API.dll
 C:\Users\55119\MyProjetos\InstagramProjeto\InstagramApi\Instagram.API\obj\Debug\net7.0\Instagram.API.csproj.CopyComplete
+C:\Users\Kaio\MyProjetos\ProjetoInstagram\Instagra.API\obj\Debug\net7.0\Instagram.API.csproj.AssemblyReference.cache
+C:\Users\Kaio\MyProjetos\ProjetoInstagram\Instagra.API\obj\Debug\net7.0\Instagram.API.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Kaio\MyProjetos\ProjetoInstagram\Instagra.API\obj\Debug\net7.0\Instagram.API.AssemblyInfoInputs.cache
+C:\Users\Kaio\MyProjetos\ProjetoInstagram\Instagra.API\obj\Debug\net7.0\Instagram.API.AssemblyInfo.cs
+C:\Users\Kaio\MyProjetos\ProjetoInstagram\Instagra.API\obj\Debug\net7.0\Instagram.API.csproj.CoreCompileInputs.cache
+C:\Users\Kaio\MyProjetos\ProjetoInstagram\Instagra.API\obj\Debug\net7.0\Instagram.API.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Kaio\MyProjetos\ProjetoInstagram\Instagra.API\obj\Debug\net7.0\Instagram.API.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Kaio\MyProjetos\ProjetoInstagram\Instagra.API\obj\Debug\net7.0\Instagram.API.sourcelink.json
+C:\Users\Kaio\MyProjetos\ProjetoInstagram\Instagra.API\obj\Debug\net7.0\Instagram.API.dll
+C:\Users\Kaio\MyProjetos\ProjetoInstagram\Instagra.API\obj\Debug\net7.0\refint\Instagram.API.dll
+C:\Users\Kaio\MyProjetos\ProjetoInstagram\Instagra.API\obj\Debug\net7.0\Instagram.API.pdb
