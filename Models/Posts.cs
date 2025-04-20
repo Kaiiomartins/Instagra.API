@@ -1,8 +1,7 @@
-using Instagram.API.Modeld;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Instagram.API.Model
+namespace Instagram.API.Models
 {
     [Table("Posts")]
     public class Posts
@@ -22,7 +21,7 @@ namespace Instagram.API.Model
 
             public DateTime PostDate { get; set; }
 
-            public virtual Users? User { get; set; }
+            public virtual UserPosts? User { get; set; }
 
         
         }

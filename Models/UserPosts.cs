@@ -1,9 +1,9 @@
-﻿using Instagram.API.Model;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Instagram.API.Modeld
+namespace Instagram.API.Models
 {
-    public class Users
+
+    public class UserPosts
     {
 
         [Key]

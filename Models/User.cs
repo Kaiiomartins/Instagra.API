@@ -1,11 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data;
-using Microsoft.AspNetCore.Mvc;
 
-namespace Instagram.API.Model
+namespace Instagram.API.Models
 {
 
     [Table ("Users")]

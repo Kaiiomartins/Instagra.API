@@ -1,9 +1,5 @@
-﻿
-using Microsoft.EntityFrameworkCore;
-using Instagram.API.Model;
-using Microsoft.Identity.Client;
-using Microsoft.Extensions.Hosting;
-using PostsWebApi.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Instagram.API.Models;
 
 namespace Instagram.API.Data
 {

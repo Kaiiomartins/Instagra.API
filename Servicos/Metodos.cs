@@ -1,5 +1,4 @@
-﻿
-using PostsWebApi.Models;
+﻿using Instagram.API.Models;
 
 namespace PostsWebApi.Servicos
 {

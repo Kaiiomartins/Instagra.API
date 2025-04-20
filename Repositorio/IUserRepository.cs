@@ -1,5 +1,5 @@
 ﻿using Instagram.API.Data;
-using Instagram.API.Model;
+using Instagram.API.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;

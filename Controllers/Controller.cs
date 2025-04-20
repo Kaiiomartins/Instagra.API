@@ -2,19 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Instagram.API.Data;
-<<<<<<< HEAD
-using Instagram.API.Model;
-using Instagram.API.Services;
-=======
 using Instagram.API.Models;
 using PostsWebApi.Servicos;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Runtime.CompilerServices;
-
-
->>>>>>> main
 
 namespace Instagram.API.Controllers
 {
@@ -22,36 +14,6 @@ namespace Instagram.API.Controllers
     [Route("[controller]")]
     public class CvaminhoController : ControllerBase
     {
-<<<<<<< HEAD
-        private readonly UserService _userService;
-
-        public UsersController(UserService userService)
-        {
-            _userService = userService;
-        }
-         
-        [HttpGet]
-        public async Task<IActionResult> GetUser(int id)
-        {
-            var user = await _userService.GetUser(id);
-
-            if (user == null)
-            {
-                return BadRequest("Usuário não encontrado"); 
-            }
-
-            return Ok(user);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateUsers([FromBody] User user)
-        {
-            var existingUser = await _userService.GetUserByUsernameOrEmail(user.UserName, user.Email);
-
-
-            if (existingUser != null)
-            {
-=======
         private readonly ServicesPosts _servicesPosts;
         private readonly AppDbContext _context;
         private readonly IConfiguration _configuration;
@@ -65,7 +27,7 @@ namespace Instagram.API.Controllers
 
         // LOGIN
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] Users usuarioLogin)
+        public async Task<IActionResult> Login([FromBody] User usuarioLogin)
         {
             var usuario = await _servicesPosts.GetUserByUserName(usuarioLogin.UserName);
 
@@ -86,7 +48,7 @@ namespace Instagram.API.Controllers
             });
         }
 
-        private string GerarToken(Users user)
+        private string GerarToken(User user)
         {
             var claims = new[]
             {
@@ -116,7 +78,7 @@ namespace Instagram.API.Controllers
             if (post is null)
                 return NotFound(new { mensagem = "Post não encontrado." });
 
-            return post;
+            return Ok(post);
             
         }
 
@@ -211,32 +173,21 @@ namespace Instagram.API.Controllers
         }
 
         [HttpPost("user")]
-        public async Task<IActionResult> CreateUser([FromBody] Users userss)
+        public async Task<IActionResult> CreateUser([FromBody] User users)
         {
-            if (await _context.Users.AnyAsync(u => u.Id == userss.Id))
->>>>>>> main
+            if (await _context.Users.AnyAsync(u => u.Id == users.Id))
                 return BadRequest("Já existe esse usuário");
 
-<<<<<<< HEAD
-          var createdUser = await _userService.CreateUser(user);
-            
-=======
-            await _context.Users.AddAsync(userss);
+            await _context.Users.AddAsync(users);
             await _context.SaveChangesAsync();
->>>>>>> main
 
-            return CreatedAtAction(nameof(GetUser), new { id = userss.Id }, userss);
+            return CreatedAtAction(nameof(GetUser), new { id = users.Id }, users);
         }
 
         [HttpPut("user")]
-        public async Task<IActionResult> UpdateUser([FromBody] Users user)
+        public async Task<IActionResult> UpdateUser([FromBody] User user)
         {
-<<<<<<< HEAD
-            var existingUser = await _userService.Update(user);
-
-=======
             var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
->>>>>>> main
             if (existingUser == null)
                 return NotFound("Usuário não encontrado");
 
@@ -246,32 +197,18 @@ namespace Instagram.API.Controllers
             existingUser.Password = user.Password;
             existingUser.UpdatedAt = DateTime.Now;
 
-<<<<<<< HEAD
-           
-
-=======
             await _context.SaveChangesAsync();
->>>>>>> main
             return Ok("Usuário atualizado com sucesso");
         }
 
         [HttpDelete("user/{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-<<<<<<< HEAD
-            var user = await _userService.GetUser(id);
-
-            if (user == null)
-            {
-                return NotFound("Usuário não encontrado");
-            }
-=======
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
             if (user == null) return NotFound("Usuário não encontrado");
->>>>>>> main
 
-           await _userService.DeleteUser(id);
-            
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
 
             return Ok("Usuário deletado com sucesso");
         }

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using Instagram.API.Modeld;
 
-namespace Instagram.API.Model
+
+namespace Instagram.API.Models
 {
     [Table("Followers")]
     public class Follows
@@ -21,10 +21,10 @@ namespace Instagram.API.Model
 
            
             [ForeignKey("SeguidorId")]
-            public virtual Users? Seguidor { get; set; }
+            public virtual UserPosts? Seguidor { get; set; }
 
            
             [ForeignKey("SeguidoId")]
-            public virtual Users? Seguido { get; set; }
+            public virtual UserPosts? Seguido { get; set; }
         }
 }

@@ -1,4 +1,4 @@
-﻿using Instagram.API.Model;
+﻿using Instagram.API.Models;
 using Instagram.API.Repositorio;
 using Microsoft.AspNetCore.Mvc;
 

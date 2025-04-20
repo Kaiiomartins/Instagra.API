@@ -136,17 +136,16 @@ namespace PostsWebApi.Servicos
 
 
 
-        public async Task<Users> GetUserByUserName(string userName)
+        public async Task<User> GetUserByUserName(string userName)
         {
             var user = await _appContext.Users.FirstOrDefaultAsync(u => u.UserName == userName);
 
             if (user == null)
                 return null;
 
-            return new Users
+            return new User
             {
                 Id = user.Id,
-                Cpf = user.cpf,
                 UserName = user.UserName,
                 Password = user.Password,
                 Email = user.Email,
