@@ -1,8 +1,6 @@
 ﻿using Instagram.API.Data;
 using Instagram.API.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Instagram.API.Repositorio
 {

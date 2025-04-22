@@ -1,6 +1,5 @@
 ﻿using Instagram.API.Models;
 using Instagram.API.Repositorio;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Instagram.API.Services
 {

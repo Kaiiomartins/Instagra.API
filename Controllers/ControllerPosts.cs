@@ -23,7 +23,7 @@ namespace Instagram.API.Controllers
 
 
 
-        [HttpGet("post/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetPostById(int id)
         {
             var post = await _servicesPosts.GetPostById(id);
@@ -37,7 +37,7 @@ namespace Instagram.API.Controllers
 
         }
 
-        [HttpPost("post/texto")]
+        [HttpPost("texto")]
         public async Task<IActionResult> CreatePostText([FromBody] Posts posts)
         {
             var post = await _servicesPosts.GetPostById(posts.Id);
@@ -49,7 +49,7 @@ namespace Instagram.API.Controllers
         }
 
 
-        [HttpPost("post/imagem")]
+        [HttpPost("imagem")]
         public async Task<IActionResult> CreatePostImagem(
             [FromForm] int userId,
             [FromForm] string description,
@@ -69,7 +69,7 @@ namespace Instagram.API.Controllers
             return Ok(criado);
         }
 
-        [HttpGet("post/imagem/{postId}")]
+        [HttpGet("imagem/{postId}")]
         public async Task<IActionResult> VisualizarImagem(int postId)
         {
             var caminhoRelativo = await _servicesPosts.GetCaminhoImagemAsync(postId);
@@ -96,7 +96,7 @@ namespace Instagram.API.Controllers
             return File(bytes, contentType);
         }
 
-        [HttpPut("post")]
+        [HttpPut("update")]
         public async Task<IActionResult> PutPost([FromBody] Posts posts)
         {
             var postExistente = await _servicesPosts.GetPostById(posts.Id);
@@ -107,7 +107,7 @@ namespace Instagram.API.Controllers
             return Ok(postAtualizado);
         }
 
-        [HttpDelete("post/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePosts(int id)
         {
             var postExistente = await _servicesPosts.GetPostById(id);

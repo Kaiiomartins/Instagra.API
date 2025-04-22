@@ -142,7 +142,7 @@
         }
       }
     },
-    "/post/post/{id}": {
+    "/post/{id}": {
       "get": {
         "tags": [
           "ControllerPosts"
@@ -188,7 +188,7 @@
         }
       }
     },
-    "/post/post/texto": {
+    "/post/texto": {
       "post": {
         "tags": [
           "ControllerPosts"
@@ -219,7 +219,7 @@
         }
       }
     },
-    "/post/post/imagem": {
+    "/post/imagem": {
       "post": {
         "tags": [
           "ControllerPosts"
@@ -313,7 +313,7 @@
         }
       }
     },
-    "/post/post/imagem/{postId}": {
+    "/post/imagem/{postId}": {
       "get": {
         "tags": [
           "ControllerPosts"
@@ -337,7 +337,7 @@
         }
       }
     },
-    "/post/post": {
+    "/post/update": {
       "put": {
         "tags": [
           "ControllerPosts"

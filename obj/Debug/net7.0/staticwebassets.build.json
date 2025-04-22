@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "HIswL2KnfCHutDfbMElaznUFJHTDMQztFjCTiFJywpM=",
+  "Hash": "n85gAd+V3r5smqL0LPikBoz3M0wX54xkMlmibRzfnwk=",
   "Source": "Instagram.API",
   "BasePath": "_content/Instagram.API",
   "Mode": "Default",
@@ -16,6 +16,48 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\wwwroot\\imagens\\15f6202b-be58-4fd3-ac39-2ab481295a75.webp",
+      "SourceId": "Instagram.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\wwwroot\\",
+      "BasePath": "_content/Instagram.API",
+      "RelativePath": "imagens/15f6202b-be58-4fd3-ac39-2ab481295a75#[.{fingerprint}]?.webp",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "88c3w1ni8f",
+      "Integrity": "WOvf5amREcyEFm2xBL4PxuzwsPUKLiCCDTc49axTtNk=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\imagens\\15f6202b-be58-4fd3-ac39-2ab481295a75.webp"
+    },
+    {
+      "Identity": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\wwwroot\\imagens\\868e1892-5e01-4070-966c-e2fd4f06c403.webp",
+      "SourceId": "Instagram.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\wwwroot\\",
+      "BasePath": "_content/Instagram.API",
+      "RelativePath": "imagens/868e1892-5e01-4070-966c-e2fd4f06c403#[.{fingerprint}]?.webp",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "88c3w1ni8f",
+      "Integrity": "WOvf5amREcyEFm2xBL4PxuzwsPUKLiCCDTc49axTtNk=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\imagens\\868e1892-5e01-4070-966c-e2fd4f06c403.webp"
+    },
     {
       "Identity": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\wwwroot\\imagens\\a1c69f20-7b99-4467-907d-a93d34cc0be8.jpeg",
       "SourceId": "Instagram.API",
@@ -39,6 +81,170 @@
     }
   ],
   "Endpoints": [
+    {
+      "Route": "imagens/15f6202b-be58-4fd3-ac39-2ab481295a75.88c3w1ni8f.webp",
+      "AssetFile": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\wwwroot\\imagens\\15f6202b-be58-4fd3-ac39-2ab481295a75.webp",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "790432"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/webp"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"WOvf5amREcyEFm2xBL4PxuzwsPUKLiCCDTc49axTtNk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 22 Apr 2025 18:31:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "88c3w1ni8f"
+        },
+        {
+          "Name": "label",
+          "Value": "imagens/15f6202b-be58-4fd3-ac39-2ab481295a75.webp"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-WOvf5amREcyEFm2xBL4PxuzwsPUKLiCCDTc49axTtNk="
+        }
+      ]
+    },
+    {
+      "Route": "imagens/15f6202b-be58-4fd3-ac39-2ab481295a75.webp",
+      "AssetFile": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\wwwroot\\imagens\\15f6202b-be58-4fd3-ac39-2ab481295a75.webp",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "790432"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/webp"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"WOvf5amREcyEFm2xBL4PxuzwsPUKLiCCDTc49axTtNk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 22 Apr 2025 18:31:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-WOvf5amREcyEFm2xBL4PxuzwsPUKLiCCDTc49axTtNk="
+        }
+      ]
+    },
+    {
+      "Route": "imagens/868e1892-5e01-4070-966c-e2fd4f06c403.88c3w1ni8f.webp",
+      "AssetFile": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\wwwroot\\imagens\\868e1892-5e01-4070-966c-e2fd4f06c403.webp",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "790432"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/webp"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"WOvf5amREcyEFm2xBL4PxuzwsPUKLiCCDTc49axTtNk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 22 Apr 2025 18:24:04 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "88c3w1ni8f"
+        },
+        {
+          "Name": "label",
+          "Value": "imagens/868e1892-5e01-4070-966c-e2fd4f06c403.webp"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-WOvf5amREcyEFm2xBL4PxuzwsPUKLiCCDTc49axTtNk="
+        }
+      ]
+    },
+    {
+      "Route": "imagens/868e1892-5e01-4070-966c-e2fd4f06c403.webp",
+      "AssetFile": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\wwwroot\\imagens\\868e1892-5e01-4070-966c-e2fd4f06c403.webp",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "790432"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/webp"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"WOvf5amREcyEFm2xBL4PxuzwsPUKLiCCDTc49axTtNk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 22 Apr 2025 18:24:04 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-WOvf5amREcyEFm2xBL4PxuzwsPUKLiCCDTc49axTtNk="
+        }
+      ]
+    },
     {
       "Route": "imagens/a1c69f20-7b99-4467-907d-a93d34cc0be8.jpeg",
       "AssetFile": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\wwwroot\\imagens\\a1c69f20-7b99-4467-907d-a93d34cc0be8.jpeg",
