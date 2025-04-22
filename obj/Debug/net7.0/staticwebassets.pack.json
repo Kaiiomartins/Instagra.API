@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\wwwroot\\imagens\\a1c69f20-7b99-4467-907d-a93d34cc0be8.jpeg",
+      "PackagePath": "staticwebassets\\imagens\\a1c69f20-7b99-4467-907d-a93d34cc0be8.jpeg"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.Instagram.API.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.Instagram.API.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.build.Instagram.API.props",
+      "PackagePath": "build\\Instagram.API.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildMultiTargeting.Instagram.API.props",
+      "PackagePath": "buildMultiTargeting\\Instagram.API.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildTransitive.Instagram.API.props",
+      "PackagePath": "buildTransitive\\Instagram.API.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
