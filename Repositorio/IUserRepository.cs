@@ -65,6 +65,9 @@ namespace Instagram.API.Repositorio
            return await _appDbContext.Users.FirstOrDefaultAsync(u => u.UserName == username || u.Email == email);
         }
 
-
+        internal async Task SaveChangesAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

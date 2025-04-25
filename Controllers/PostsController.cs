@@ -7,17 +7,16 @@ namespace Instagram.API.Controllers
 {
     [ApiController]
     [Route("post")]
-    public class ControllerPosts: ControllerBase
+    public class PostsController: ControllerBase
     {
 
         private readonly PostsService _servicesPosts;
-        private readonly AppDbContext _context;
+        
         private readonly IConfiguration _configuration;
 
-        public ControllerPosts(PostsService servicesPosts, AppDbContext context, IConfiguration configuration)
+        public PostsController(PostsService servicesPosts, IConfiguration configuration)
         {
             _servicesPosts = servicesPosts;
-            _context = context;
             _configuration = configuration;
         }
 

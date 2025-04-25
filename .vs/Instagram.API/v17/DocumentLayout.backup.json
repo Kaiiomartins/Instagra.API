@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F6D6892A-C026-ECDF-2137-59BFDF649BF2}|Instagram.API.csproj|c:\\users\\kaio\\myprojetos\\projetoinstagram\\instagra.api\\controllers\\controllerposts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F6D6892A-C026-ECDF-2137-59BFDF649BF2}|Instagram.API.csproj|solutionrelative:controllers\\controllerposts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F6D6892A-C026-ECDF-2137-59BFDF649BF2}|Instagram.API.csproj|c:\\users\\kaio\\myprojetos\\projetoinstagram\\instagra.api\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6D6892A-C026-ECDF-2137-59BFDF649BF2}|Instagram.API.csproj|solutionrelative:controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6D6892A-C026-ECDF-2137-59BFDF649BF2}|Instagram.API.csproj|c:\\users\\kaio\\myprojetos\\projetoinstagram\\instagra.api\\controllers\\postscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6D6892A-C026-ECDF-2137-59BFDF649BF2}|Instagram.API.csproj|solutionrelative:controllers\\postscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F6D6892A-C026-ECDF-2137-59BFDF649BF2}|Instagram.API.csproj|c:\\users\\kaio\\myprojetos\\projetoinstagram\\instagra.api\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
@@ -21,10 +25,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{F6D6892A-C026-ECDF-2137-59BFDF649BF2}|Instagram.API.csproj|c:\\users\\kaio\\myprojetos\\projetoinstagram\\instagra.api\\services\\metodos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F6D6892A-C026-ECDF-2137-59BFDF649BF2}|Instagram.API.csproj|solutionrelative:services\\metodos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F6D6892A-C026-ECDF-2137-59BFDF649BF2}|Instagram.API.csproj|c:\\users\\kaio\\myprojetos\\projetoinstagram\\instagra.api\\controllers\\controllerusers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F6D6892A-C026-ECDF-2137-59BFDF649BF2}|Instagram.API.csproj|solutionrelative:controllers\\controllerusers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F6D6892A-C026-ECDF-2137-59BFDF649BF2}|Instagram.API.csproj|c:\\users\\kaio\\myprojetos\\projetoinstagram\\instagra.api\\models\\follows.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -50,11 +50,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "UserService.cs",
               "DocumentMoniker": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\Services\\UserService.cs",
               "RelativeDocumentMoniker": "Services\\UserService.cs",
@@ -62,12 +62,11 @@
               "RelativeToolTip": "Services\\UserService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-22T17:38:14.849Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-22T17:38:14.849Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Metodos.cs",
               "DocumentMoniker": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\Services\\Metodos.cs",
               "RelativeDocumentMoniker": "Services\\Metodos.cs",
@@ -75,8 +74,7 @@
               "RelativeToolTip": "Services\\Metodos.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-22T17:38:10.371Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-22T17:38:10.371Z"
             },
             {
               "$type": "Document",
@@ -88,8 +86,7 @@
               "RelativeToolTip": "Models\\Follows.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-22T17:37:50.521Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-22T17:37:50.521Z"
             },
             {
               "$type": "Document",
@@ -101,8 +98,7 @@
               "RelativeToolTip": "Repositorio\\IUserRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-22T17:37:35.019Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-22T17:37:35.019Z"
             },
             {
               "$type": "Document",
@@ -114,12 +110,11 @@
               "RelativeToolTip": ".gitignore",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-04-22T16:51:54.595Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-22T16:51:54.595Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "PostsService.cs",
               "DocumentMoniker": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\Services\\PostsService.cs",
               "RelativeDocumentMoniker": "Services\\PostsService.cs",
@@ -127,12 +122,11 @@
               "RelativeToolTip": "Services\\PostsService.cs",
               "ViewState": "AgIAAEQAAAAAAAAAAAAswAMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-21T17:54:07.746Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-21T17:54:07.746Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "launchSettings.json",
               "DocumentMoniker": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\launchSettings.json",
               "RelativeDocumentMoniker": "launchSettings.json",
@@ -140,17 +134,16 @@
               "RelativeToolTip": "launchSettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-04-21T16:05:44.624Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-21T16:05:44.624Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ControllerPosts.cs",
-              "DocumentMoniker": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\Controllers\\ControllerPosts.cs",
-              "RelativeDocumentMoniker": "Controllers\\ControllerPosts.cs",
-              "ToolTip": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\Controllers\\ControllerPosts.cs",
-              "RelativeToolTip": "Controllers\\ControllerPosts.cs",
+              "DocumentIndex": 1,
+              "Title": "PostsController.cs",
+              "DocumentMoniker": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\Controllers\\PostsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\PostsController.cs",
+              "ToolTip": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\Controllers\\PostsController.cs",
+              "RelativeToolTip": "Controllers\\PostsController.cs",
               "ViewState": "AgIAAC8AAAAAAAAAAAAgwCUAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-21T15:35:33.113Z",
@@ -170,13 +163,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ControllerUsers.cs",
-              "DocumentMoniker": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\Controllers\\ControllerUsers.cs",
-              "RelativeDocumentMoniker": "Controllers\\ControllerUsers.cs",
-              "ToolTip": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\Controllers\\ControllerUsers.cs",
-              "RelativeToolTip": "Controllers\\ControllerUsers.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAABMAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UsersController.cs",
+              "ToolTip": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "Controllers\\UsersController.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAAAB0AAABMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-21T14:14:15.651Z",
               "EditorCaption": ""

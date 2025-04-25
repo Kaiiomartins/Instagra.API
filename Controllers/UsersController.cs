@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Instagram.API.Services;
+using Instagram.API.Repositorio;
 
 namespace Instagram.API.Controllers
 {
@@ -15,13 +16,13 @@ namespace Instagram.API.Controllers
     public class CaminhoController : ControllerBase
     {
         private readonly PostsService _servicesPosts;
-        private readonly AppDbContext _context;
+        private readonly UserRepository _userRepository;
         private readonly IConfiguration _configuration;
 
-        public CaminhoController(PostsService servicesPosts, AppDbContext context, IConfiguration configuration)
+        public CaminhoController(PostsService servicesPosts, UserRepository userRepository, IConfiguration configuration)
         {
             _servicesPosts = servicesPosts;
-            _context = context;
+            _userRepository = userRepository;
             _configuration = configuration;
         }
 
@@ -74,7 +75,7 @@ namespace Instagram.API.Controllers
         [HttpGet("user/{id}")]
         public async Task<IActionResult> GetUser(int id)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            var user = await _userRepository.GetById(id);
             if (user == null) return BadRequest("Usuário não encontrado");
             return Ok(user);
         }
@@ -82,11 +83,12 @@ namespace Instagram.API.Controllers
         [HttpPost("user")]
         public async Task<IActionResult> CreateUser([FromBody] User users)
         {
-            if (await _context.Users.AnyAsync(u => u.Id == users.Id))
+            var existingUser = await _userRepository.GetById(users.Id);
+            if (existingUser != null)
                 return BadRequest("Já existe esse usuário");
 
-            await _context.Users.AddAsync(users);
-            await _context.SaveChangesAsync();
+            await _userRepository.Add(users); 
+            await _userRepository.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetUser), new { id = users.Id }, users);
         }
@@ -94,7 +96,7 @@ namespace Instagram.API.Controllers
         [HttpPut("user")]
         public async Task<IActionResult> UpdateUser([FromBody] User user)
         {
-            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+            var existingUser = await _userRepository.GetById(user.Id);
             if (existingUser == null)
                 return NotFound("Usuário não encontrado");
 
@@ -104,18 +106,18 @@ namespace Instagram.API.Controllers
             existingUser.Password = user.Password;
             existingUser.UpdatedAt = DateTime.Now;
 
-            await _context.SaveChangesAsync();
+            await _userRepository.SaveChangesAsync();
             return Ok("Usuário atualizado com sucesso");
         }
 
         [HttpDelete("user/{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            var user = await _userRepository.GetById(id);
             if (user == null) return NotFound("Usuário não encontrado");
 
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
+            await _userRepository.Delete(user.Id);
+            await _userRepository.SaveChangesAsync();
 
             return Ok("Usuário deletado com sucesso");
         }
