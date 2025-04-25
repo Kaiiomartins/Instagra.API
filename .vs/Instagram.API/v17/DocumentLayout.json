@@ -108,7 +108,7 @@
               "RelativeDocumentMoniker": ".gitignore",
               "ToolTip": "C:\\Users\\Kaio\\MyProjetos\\ProjetoInstagram\\Instagra.API\\.gitignore",
               "RelativeToolTip": ".gitignore",
-              "ViewState": "AgIAAG8BAAAAAAAAAAAiwI0BAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAGcAAAAAAAAAAAAiwI0BAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2025-04-22T16:51:54.595Z",
               "EditorCaption": ""
@@ -147,8 +147,7 @@
               "RelativeToolTip": "Controllers\\PostsController.cs",
               "ViewState": "AgIAADQAAAAAAAAAAAAuwHgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-21T15:35:33.113Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-21T15:35:33.113Z"
             },
             {
               "$type": "Document",
@@ -172,8 +171,7 @@
               "RelativeToolTip": "Controllers\\UsersController.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAAGMAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-21T14:14:15.651Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-21T14:14:15.651Z"
             }
           ]
         }
