@@ -1,8 +1,8 @@
 ﻿using Instagram.API.Models;
 
-namespace Instagram.API.Services
+namespace Instagram.API.Repositorio
 {
-    public interface Metodos
+    public interface IPostRepository
     {
 
 

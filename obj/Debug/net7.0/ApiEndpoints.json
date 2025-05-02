@@ -81,24 +81,8 @@
   },
   {
     "ContainingType": "Instagram.API.Controllers.ControllerPosts",
-    "Method": "PutPost",
-    "RelativePath": "post/post",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "posts",
-        "Type": "Instagram.API.Models.Posts",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Instagram.API.Controllers.ControllerPosts",
     "Method": "GetPostById",
-    "RelativePath": "post/post/{id}",
+    "RelativePath": "post/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -114,7 +98,7 @@
   {
     "ContainingType": "Instagram.API.Controllers.ControllerPosts",
     "Method": "DeletePosts",
-    "RelativePath": "post/post/{id}",
+    "RelativePath": "post/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -130,7 +114,7 @@
   {
     "ContainingType": "Instagram.API.Controllers.ControllerPosts",
     "Method": "CreatePostImagem",
-    "RelativePath": "post/post/imagem",
+    "RelativePath": "post/imagem",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -191,7 +175,7 @@
   {
     "ContainingType": "Instagram.API.Controllers.ControllerPosts",
     "Method": "VisualizarImagem",
-    "RelativePath": "post/post/imagem/{postId}",
+    "RelativePath": "post/imagem/{postId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -207,8 +191,24 @@
   {
     "ContainingType": "Instagram.API.Controllers.ControllerPosts",
     "Method": "CreatePostText",
-    "RelativePath": "post/post/texto",
+    "RelativePath": "post/texto",
     "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "posts",
+        "Type": "Instagram.API.Models.Posts",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Instagram.API.Controllers.ControllerPosts",
+    "Method": "PutPost",
+    "RelativePath": "post/update",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [

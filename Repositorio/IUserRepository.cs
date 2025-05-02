@@ -1,8 +1,6 @@
 ﻿using Instagram.API.Data;
 using Instagram.API.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Instagram.API.Repositorio
 {
@@ -67,6 +65,9 @@ namespace Instagram.API.Repositorio
            return await _appDbContext.Users.FirstOrDefaultAsync(u => u.UserName == username || u.Email == email);
         }
 
-
+        internal async Task SaveChangesAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

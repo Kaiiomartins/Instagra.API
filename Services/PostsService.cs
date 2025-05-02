@@ -1,14 +1,11 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Instagram.API.Data;
 using Instagram.API.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.Extensions.Hosting;
+using Instagram.API.Repositorio;
 
 namespace Instagram.API.Services
 {
-    public class PostsService : Metodos
+    public class PostsService : IPostRepository
     {
         private readonly AppDbContext _appContext;
 
