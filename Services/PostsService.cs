@@ -5,11 +5,10 @@ using Instagram.API.Repositorio;
 
 namespace Instagram.API.Services
 {
-    public class PostsService : IPostRepository
+    public class PostsService : IPostService
     {
+        private readonly IPostRepository _postRepository;
         private readonly AppDbContext _appContext;
-
-
 
         public PostsService(AppDbContext appContext)
         {
@@ -25,15 +24,11 @@ namespace Instagram.API.Services
 
         public async Task<Posts?> GetPostById(int id)
         {
-           
             var post = await _appContext.Posts.FindAsync(id);
 
-            if (post == null)
-                return null;
+            if (post == null) return null;
 
-            
             return post;
-
         }
 
         public async Task<List<Posts>> GetPosts()
@@ -44,13 +39,10 @@ namespace Instagram.API.Services
             }
             catch (Exception ex)
             {
-                
+
                 throw new ApplicationException("Erro ao buscar os posts no banco de dados.", ex);
             }
-
-            _appContext.SaveChanges();
         }
-
 
         public async Task<Posts?> UpdatePostAsync(Posts posts)
         {
@@ -78,8 +70,6 @@ namespace Instagram.API.Services
             await _appContext.SaveChangesAsync();
 
             return Post;
-
-
         }
 
         public async Task<Posts> CreatePostComImagemAsync(Posts posts, IFormFile imagem)
@@ -89,7 +79,7 @@ namespace Instagram.API.Services
                 var nomeArquivo = $"{Guid.NewGuid()}{Path.GetExtension(imagem.FileName)}";
                 var caminho = Path.Combine("wwwroot/imagens", nomeArquivo);
 
-                
+
                 Directory.CreateDirectory(Path.GetDirectoryName(caminho)!);
 
                 using (var stream = new FileStream(caminho, FileMode.Create))
@@ -97,7 +87,7 @@ namespace Instagram.API.Services
                     await imagem.CopyToAsync(stream);
                 }
 
-                
+
                 posts.ImagemUrl = $"/imagens/{nomeArquivo}";
             }
 
@@ -106,7 +96,12 @@ namespace Instagram.API.Services
             await _appContext.Posts.AddAsync(posts);
             await _appContext.SaveChangesAsync();
 
-            return posts;
+            // To-do: PostResponseDto
+
+            return _appContext.Posts // To-do: Apagar depois de entender
+                .Include(u => u.User)
+                .FirstOrDefault(p => p.Id == posts.Id);
+
         }
 
         public async Task<string?> GetCaminhoImagemAsync(int postId)
@@ -129,30 +124,5 @@ namespace Instagram.API.Services
             Console.WriteLine(" Arquivo encontrado com sucesso.");
             return post.ImagemUrl;
         }
-
-
-
-
-        public async Task<User> GetUserByUserName(string userName)
-        {
-            var user = await _appContext.Users.FirstOrDefaultAsync(u => u.UserName == userName);
-
-            if (user == null)
-                return null;
-
-            return new User
-            {
-                Id = user.Id,
-                UserName = user.UserName,
-                Password = user.Password,
-                Email = user.Email,
-                DataNascimento = user.DataNascimento,
-                CreatedAt = user.CreatedAt,
-                UpdatedAt = user.UpdatedAt.GetValueOrDefault()
-
-                // Não precisa carregar Posts aqui a menos que você queira incluir também.
-            };
-        }
-
     }
 }

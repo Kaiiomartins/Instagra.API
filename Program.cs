@@ -10,9 +10,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
+// Injeção de Dependência do .NET
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<PostsService>(); 
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<PostsService>(); 
 
 
 builder.Services.AddCors(options =>

@@ -1,38 +1,34 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Instagram.API.Data;
 using Instagram.API.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Instagram.API.Services;
-using Instagram.API.Repositorio;
+using Instagram.API.Models.Dtos;
 
 namespace Instagram.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CaminhoController : ControllerBase
+    public class UsersController : ControllerBase
     {
-        private readonly PostsService _servicesPosts;
-        private readonly UserRepository _userRepository;
+        private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
 
-        public CaminhoController(PostsService servicesPosts, UserRepository userRepository, IConfiguration configuration)
+        public UsersController(IUserService userService, IConfiguration configuration)
         {
-            _servicesPosts = servicesPosts;
-            _userRepository = userRepository;
+            _userService = userService;
             _configuration = configuration;
         }
 
         // LOGIN
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] User usuarioLogin)
+        public async Task<IActionResult> Login([FromBody] User userDto)
         {
-            var usuario = await _servicesPosts.GetUserByUserName(usuarioLogin.UserName);
+            var usuario = await _userService.GetUserByUsernameOrEmail(userDto.UserName, userDto.Email);
 
-            if (usuario == null || usuario.Password != usuarioLogin.Password)
+            if (usuario == null || usuario.Password != userDto.Password)
                 return Unauthorized(new { mensagem = "Usuário ou senha inválidos." });
 
             var token = GerarToken(usuario);
@@ -70,33 +66,28 @@ namespace Instagram.API.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-      
         // USERS
-        [HttpGet("user/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(int id)
         {
-            var user = await _userRepository.GetById(id);
-            if (user == null) return BadRequest("Usuário não encontrado");
+            var user = await _userService.GetUserById(id);
+            if (user == null)
+                return BadRequest("Usuário não encontrado");
+
             return Ok(user);
         }
 
-        [HttpPost("user")]
-        public async Task<IActionResult> CreateUser([FromBody] User users)
+        [HttpPost]
+        public async Task<IActionResult> CreateUser([FromBody] UserRequestDto userDto)
         {
-            var existingUser = await _userRepository.GetById(users.Id);
-            if (existingUser != null)
-                return BadRequest("Já existe esse usuário");
-
-            await _userRepository.Add(users); 
-            await _userRepository.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetUser), new { id = users.Id }, users);
+            var user = await _userService.CreateUser(userDto);
+            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
         }
 
-        [HttpPut("user")]
+        [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody] User user)
         {
-            var existingUser = await _userRepository.GetById(user.Id);
+            var existingUser = await _userService.GetUserById(user.Id);
             if (existingUser == null)
                 return NotFound("Usuário não encontrado");
 
@@ -106,19 +97,17 @@ namespace Instagram.API.Controllers
             existingUser.Password = user.Password;
             existingUser.UpdatedAt = DateTime.Now;
 
-            await _userRepository.SaveChangesAsync();
+            await _userService.Update(existingUser);
             return Ok("Usuário atualizado com sucesso");
         }
 
-        [HttpDelete("user/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            var user = await _userRepository.GetById(id);
+            var user = await _userService.GetUserById(id);
             if (user == null) return NotFound("Usuário não encontrado");
 
-            await _userRepository.Delete(user.Id);
-            await _userRepository.SaveChangesAsync();
-
+            await _userService.DeleteUser(id);
             return Ok("Usuário deletado com sucesso");
         }
     }
