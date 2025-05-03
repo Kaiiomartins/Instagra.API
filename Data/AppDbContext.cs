@@ -21,6 +21,17 @@ namespace Instagram.API.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<User>()
+                .HasKey(u => u.Id);
+
+            modelBuilder.Entity<Posts>()
+                .HasKey(p => p.Id);
+
+            modelBuilder.Entity<Posts>()
+                .HasOne(p => p.User)
+                .WithMany()
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Follows>()
                 .HasKey(f => new { f.SeguidorId, f.SeguidoId });

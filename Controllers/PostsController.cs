@@ -20,8 +20,6 @@ namespace Instagram.API.Controllers
             _configuration = configuration;
         }
 
-
-
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPostById(int id)
         {
