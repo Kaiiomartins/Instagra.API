@@ -5,10 +5,10 @@ namespace Instagram.API.Repositorio
 {
     public interface IUserRepository 
     {
-        Task<User?> GetUserById(int id);
-        Task<User> CreateUser(UserRequestDto userDto );
-        Task<User> UpdateUser(User user);
-        Task DeleteUser(int id);
+        Task<UserRequestDto?> GetUserByUserName(string UserName);
+        Task<UserRequestDto> CreateUser(UserRequestDto userDto );
+        Task<UserRequestDto> UpdateUser(UserRequestDto user);
+        Task DeleteUser(string userName);
         Task<User?> GetUserByUsernameOrEmail(string username, string email);
     }
 

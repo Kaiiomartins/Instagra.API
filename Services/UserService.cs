@@ -17,12 +17,12 @@ namespace Instagram.API.Services
 
         }
 
-        public async Task<User?> GetUserById(int id)
+        public async Task<UserRequestDto?> GetUserByUserName(string UserName)
         {
-            return await _userRepository.GetUserById(id);
+            return await _userRepository.GetUserByUserName(UserName);
         }
 
-        public async Task<User> CreateUser(UserRequestDto userDto)
+        public async Task<UserRequestDto> CreateUser(UserRequestDto userDto)
         {
             var user = new User
             {
@@ -37,24 +37,26 @@ namespace Instagram.API.Services
             return await _userRepository.CreateUser(userDto);
         }
 
-        public async Task<User?> UpdateUser(User user)
+        public async Task<UserRequestDto?> UpdateUser(UserRequestDto user)
         {
-            var existingUser = await _userRepository.GetUserById(user.Id);
+            var existingUser = await _userRepository.GetUserByUserName(user.UserName);
             if (existingUser == null)
                 return null;
 
+            
             existingUser.UserName = user.UserName;
             existingUser.Email = user.Email;
             existingUser.DataNascimento = user.DataNascimento;
             existingUser.Password = user.Password;
-            existingUser.UpdatedAt = DateTime.Now;
+            
+            
 
             return await _userRepository.UpdateUser(existingUser);
         }
 
-        public async Task DeleteUser(int id)
+        public async Task DeleteUser(string UserName)
         {
-            await _userRepository.DeleteUser(id);
+            await _userRepository.DeleteUser(UserName);
         }
 
         public async Task<User?> GetUserByUsernameOrEmail(string username, string email)

@@ -19,9 +19,9 @@ namespace Instagram.API.Controllers
         }
         // USERS
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUser(int id)
+        public async Task<IActionResult> GetUser(string userName)
         {
-            var user = await _userService.GetUserById(id);
+            var user = await _userService.GetUserByUserName(userName);
             if (user == null)
                 return BadRequest("Usuário não encontrado");
 
@@ -32,13 +32,13 @@ namespace Instagram.API.Controllers
         public async Task<IActionResult> CreateUser([FromBody] UserRequestDto userDto)
         {
             var user = await _userService.CreateUser(userDto);
-            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
+            return CreatedAtAction(nameof(GetUser), new { userName = user.UserName }, user);
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateUser([FromBody] User user)
+        public async Task<IActionResult> UpdateUser([FromBody] UserRequestDto user)
         {
-            var existingUser = await _userService.GetUserById(user.Id);
+            var existingUser = await _userService.GetUserByUserName(user.UserName);
             if (existingUser == null)
                 return NotFound("Usuário não encontrado");
 
@@ -47,12 +47,12 @@ namespace Instagram.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteUser(string userNamer)
         {
-            var user = await _userService.GetUserById(id);
+            var user = await _userService.GetUserByUserName(userNamer);
             if (user == null) return NotFound("Usuário não encontrado");
 
-            await _userService.DeleteUser(id);
+            await _userService.DeleteUser(userNamer);
             return Ok("Usuário deletado com sucesso");
         }
     }

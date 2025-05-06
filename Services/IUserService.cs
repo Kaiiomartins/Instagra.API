@@ -8,10 +8,10 @@ namespace Instagram.API.Services
     // DIP
     public interface IUserService : IUserRepository
     {
-        Task<User?> GetUserById(int id);
-        Task<User> CreateUser(UserRequestDto user);
-        Task<User> UpdateUser(User user);
-        Task DeleteUser(int id);
+        Task<UserRequestDto?> GetUserByUserName(string UserName);
+        Task<UserRequestDto> CreateUser(UserRequestDto user);
+        Task<UserRequestDto> UpdateUser(UserRequestDto user);
+        Task DeleteUser(string userName);
         Task<User?> GetUserByUsernameOrEmail(string username, string email);
     }
 }
