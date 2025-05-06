@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Instagram.API.Data;
-using Instagram.API.Models;
+﻿using Instagram.API.Models;
 using Instagram.API.Repositorio;
 
 namespace Instagram.API.Services
@@ -8,121 +6,45 @@ namespace Instagram.API.Services
     public class PostsService : IPostService
     {
         private readonly IPostRepository _postRepository;
-        private readonly AppDbContext _appContext;
 
-        public PostsService(AppDbContext appContext)
+        public PostsService(IPostRepository postRepository)
         {
-            _appContext = appContext;
+            _postRepository = postRepository;
         }
 
         public async Task<Posts> CreatePosts(Posts posts)
         {
-            await _appContext.Posts.AddAsync(posts);
-            await _appContext.SaveChangesAsync();
-            return posts;
+            return await _postRepository.CreatePosts(posts);
         }
 
         public async Task<Posts?> GetPostById(int id)
         {
-            var post = await _appContext.Posts.FindAsync(id);
-
-            if (post == null) return null;
-
-            return post;
+            return await _postRepository.GetPostById(id);
         }
 
         public async Task<List<Posts>> GetPosts()
         {
-            try
-            {
-                return await _appContext.Posts.ToListAsync();
-            }
-            catch (Exception ex)
-            {
-
-                throw new ApplicationException("Erro ao buscar os posts no banco de dados.", ex);
-            }
+            return await _postRepository.GetPosts();
         }
 
         public async Task<Posts?> UpdatePostAsync(Posts posts)
         {
-            var post = await _appContext.Posts.FindAsync(posts.Id);
-
-            if (post == null)
-                return null;
-
-            _appContext.Entry(post).CurrentValues.SetValues(posts);
-            await _appContext.SaveChangesAsync();
-
-            return posts;
+            return await _postRepository.UpdatePostAsync(posts);
         }
 
-        public async Task<Posts> DeletesPostAsync(int id)
+        public async Task<Posts?> DeletesPostAsync(int id)
         {
-
-            var Post = await _appContext.Posts.FindAsync(id);
-
-            if (Post == null)
-                return null;
-
-            _appContext.Posts.Remove(Post);
-
-            await _appContext.SaveChangesAsync();
-
-            return Post;
+            return await _postRepository.DeletesPostAsync(id);
         }
 
-        public async Task<Posts> CreatePostComImagemAsync(Posts posts, IFormFile imagem)
+        public async Task<Posts> CreatePostWithImagemOrImageAsync(Posts posts, IFormFile imagem)
         {
-            if (imagem != null && imagem.Length > 0)
-            {
-                var nomeArquivo = $"{Guid.NewGuid()}{Path.GetExtension(imagem.FileName)}";
-                var caminho = Path.Combine("wwwroot/imagens", nomeArquivo);
-
-
-                Directory.CreateDirectory(Path.GetDirectoryName(caminho)!);
-
-                using (var stream = new FileStream(caminho, FileMode.Create))
-                {
-                    await imagem.CopyToAsync(stream);
-                }
-
-
-                posts.ImagemUrl = $"/imagens/{nomeArquivo}";
-            }
-
-            posts.PostDate = DateTime.Now;
-
-            await _appContext.Posts.AddAsync(posts);
-            await _appContext.SaveChangesAsync();
-
-            // To-do: PostResponseDto
-
-            return _appContext.Posts // To-do: Apagar depois de entender
-                .Include(u => u.User)
-                .FirstOrDefault(p => p.Id == posts.Id);
-
+            return await _postRepository.CreatePostWithImagemOrImageAsync(posts, imagem);
         }
 
-        public async Task<string?> GetCaminhoImagemAsync(int postId)
+        public async Task<string?> GetImagePathOrDescription(int postId)
         {
-            var post = await _appContext.Posts.FindAsync(postId);
-
-            if (post == null || string.IsNullOrEmpty(post.ImagemUrl))
-                return null;
-
-            var caminhoFisico = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", post.ImagemUrl.TrimStart('/'));
-
-            Console.WriteLine($" Caminho gerado: {caminhoFisico}");
-
-            if (!File.Exists(caminhoFisico))
-            {
-                Console.WriteLine(" Arquivo não encontrado.");
-                return null;
-            }
-
-            Console.WriteLine(" Arquivo encontrado com sucesso.");
-            return post.ImagemUrl;
+            return await _postRepository.GetImagePathOrDescription(postId);
         }
     }
 }

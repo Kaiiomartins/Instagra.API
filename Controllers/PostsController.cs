@@ -33,43 +33,41 @@ namespace Instagram.API.Controllers
             return Ok(post);
 
         }
-
-        [HttpPost("texto")]
-        public async Task<IActionResult> CreatePostText([FromBody] Posts posts)
-        {
-            var post = await _servicesPosts.GetPostById(posts.Id);
-            if (post is null)
-                return BadRequest("Já existe esse post");
-
-            var created = await _servicesPosts.CreatePosts(posts);
-            return Ok(created);
-        }
-
-
-        [HttpPost("imagem")]
-        public async Task<IActionResult> CreatePostImagem(
+        [HttpPost("Create")]
+        public async Task<IActionResult> CreatePost(
             [FromForm] int userId,
             [FromForm] string description,
             [FromForm] string postType,
-            [FromForm] DateTime postDate,
-            [FromForm] IFormFile imagem)
+            [FromForm] DateTime? postDate,
+            [FromForm] IFormFile? imagem)
         {
             var post = new Posts
             {
                 UserId = userId,
                 Description = description,
                 PostType = postType,
-                PostDate = postDate
+                PostDate = postDate ?? DateTime.Now
             };
 
-            var criado = await _servicesPosts.CreatePostComImagemAsync(post, imagem);
-            return Ok(criado);
-        }
+            var existente = await _servicesPosts.GetPostById(post.Id);
+            if (existente != null)
+                return BadRequest("Já existe esse post");
 
+            if (imagem != null && imagem.Length > 0)
+            {
+                var criado = await _servicesPosts.CreatePostWithImagemOrImageAsync(post, imagem);
+                return Ok(criado);
+            }
+            else
+            {
+                var criado = await _servicesPosts.CreatePosts(post);
+                return Ok(criado);
+            }
+        }
         [HttpGet("imagem/{postId}")]
         public async Task<IActionResult> VisualizarImagem(int postId)
         {
-            var caminhoRelativo = await _servicesPosts.GetCaminhoImagemAsync(postId);
+            var caminhoRelativo = await _servicesPosts.GetImagePathOrDescription(postId);
 
             if (string.IsNullOrEmpty(caminhoRelativo))
                 return NotFound("Imagem não encontrada.");

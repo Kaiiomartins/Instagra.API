@@ -4,8 +4,6 @@ namespace Instagram.API.Repositorio
 {
     public interface IPostRepository
     {
-
-
         Task<Posts> CreatePosts(Posts posts);
         Task<List<Posts>> GetPosts();
         Task<Posts> GetPostById(int id);
@@ -15,8 +13,8 @@ namespace Instagram.API.Repositorio
 
         Task<Posts> DeletesPostAsync(int id);
 
-        Task<Posts> CreatePostComImagemAsync(Posts posts, IFormFile imagem);
+        Task<Posts> CreatePostWithImagemOrImageAsync(Posts posts, IFormFile imagem);
 
-        Task<string?> GetCaminhoImagemAsync(int postId);
+        Task<string?> GetImagePathOrDescription(int postId);
     }
 }

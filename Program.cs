@@ -5,16 +5,14 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-// Injeção de Dependência do .NET
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();  
+builder.Services.AddScoped<IPostRepository, PostRepository>();  
 builder.Services.AddTransient<IUserService, UserService>();
-builder.Services.AddTransient<PostsService>(); 
-
+builder.Services.AddTransient<PostsService>();
 
 builder.Services.AddCors(options =>
 {
@@ -30,12 +28,21 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Instagram API",
+        Version = "v1",
+        Description = "API Instagram"
+    });
+});
 
 app.UseHttpsRedirection();
 app.UseCors("AllowLocalhost"); 
