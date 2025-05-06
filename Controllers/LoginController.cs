@@ -62,6 +62,11 @@ namespace Instagram.API.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+        public IActionResult Index()
+        {
+            var model = new { Message = "Bem-vindo à página inicial!" };
+            return View(model);
+        }
 
     }
 }
