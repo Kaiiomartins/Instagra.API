@@ -1,5 +1,4 @@
-﻿using Instagram.API.Data;
-using Instagram.API.Models;
+﻿using Instagram.API.Models;
 using Instagram.API.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,23 +6,23 @@ namespace Instagram.API.Controllers
 {
     [ApiController]
     [Route("post")]
-    public class PostsController: ControllerBase
+    public class PostsController : ControllerBase
     {
 
-        private readonly PostsService _servicesPosts;
-        
+        private readonly PostsService _postsService;
+
         private readonly IConfiguration _configuration;
 
         public PostsController(PostsService servicesPosts, IConfiguration configuration)
         {
-            _servicesPosts = servicesPosts;
+            _postsService = servicesPosts;
             _configuration = configuration;
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPostById(int id)
         {
-            var post = await _servicesPosts.GetPostById(id);
+            var post = await _postsService.GetPostById(id);
             if (post == null)
             {
                 Console.WriteLine($"Post com ID {id} não encontrado.");
@@ -33,7 +32,7 @@ namespace Instagram.API.Controllers
             return Ok(post);
 
         }
-        [HttpPost("Create")]
+        [HttpPost]
         public async Task<IActionResult> CreatePost(
             [FromForm] int userId,
             [FromForm] string description,
@@ -49,25 +48,22 @@ namespace Instagram.API.Controllers
                 PostDate = postDate ?? DateTime.Now
             };
 
-            var existente = await _servicesPosts.GetPostById(post.Id);
+            var existente = await _postsService.GetPostById(post.Id);
             if (existente != null)
                 return BadRequest("Já existe esse post");
 
-            if (imagem != null && imagem.Length > 0)
-            {
-                var criado = await _servicesPosts.CreatePostWithImagemOrImageAsync(post, imagem);
-                return Ok(criado);
-            }
-            else
-            {
-                var criado = await _servicesPosts.CreatePosts(post);
-                return Ok(criado);
-            }
+            var criado = imagem != null && imagem.Length > 0
+                ? await _postsService.CreatePostWithImagemOrImageAsync(post, imagem)
+                : await _postsService.CreatePosts(post);
+
+            return Ok(criado);
+
+
         }
         [HttpGet("imagem/{postId}")]
         public async Task<IActionResult> VisualizarImagem(int postId)
         {
-            var caminhoRelativo = await _servicesPosts.GetImagePathOrDescription(postId);
+            var caminhoRelativo = await _postsService.GetImagePathOrDescription(postId);
 
             if (string.IsNullOrEmpty(caminhoRelativo))
                 return NotFound("Imagem não encontrada.");
@@ -91,25 +87,25 @@ namespace Instagram.API.Controllers
             return File(bytes, contentType);
         }
 
-        [HttpPut("update")]
+        [HttpPut]
         public async Task<IActionResult> PutPost([FromBody] Posts posts)
         {
-            var postExistente = await _servicesPosts.GetPostById(posts.Id);
+            var postExistente = await _postsService.GetPostById(posts.Id);
             if (postExistente is null)
                 return NotFound(new { mensagem = "Post não encontrado." });
 
-            var postAtualizado = await _servicesPosts.UpdatePostAsync(posts);
+            var postAtualizado = await _postsService.UpdatePostAsync(posts);
             return Ok(postAtualizado);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePosts(int id)
         {
-            var postExistente = await _servicesPosts.GetPostById(id);
+            var postExistente = await _postsService.GetPostById(id);
             if (postExistente is null)
                 return NotFound(new { mensagem = "Post não encontrado." });
 
-            var postDeletado = await _servicesPosts.DeletesPostAsync(id);
+            var postDeletado = await _postsService.DeletesPostAsync(id);
             return Ok(postDeletado);
         }
     }

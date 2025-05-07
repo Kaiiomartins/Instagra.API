@@ -1,5 +1,6 @@
 ﻿using Instagram.API.Data;
 using Instagram.API.Models;
+using Instagram.API.Models.Dtos;
 using Microsoft.EntityFrameworkCore;
 
 namespace Instagram.API.Repositorio
@@ -20,21 +21,40 @@ namespace Instagram.API.Repositorio
             return posts;
         }
 
-        public async Task<Posts?> GetPostById(int id)
+        public async Task<PostResponseDto?> GetPostById(int id)
         {
-            return await _context.Posts.FindAsync(id);
-        }
+            var post = await _context.Posts.FindAsync(id);
+            if (post == null) return null;
 
-        public async Task<List<Posts>> GetPosts()
-        {
-            try
+            string? imagemBase64 = null;
+            string? contentType = null;
+
+            if (!string.IsNullOrEmpty(post.ImagemUrl))
             {
-                return await _context.Posts.ToListAsync();
+                var caminhoFisico = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", post.ImagemUrl.TrimStart('/'));
+                if (System.IO.File.Exists(caminhoFisico))
+                {
+                    var extensao = Path.GetExtension(caminhoFisico).ToLowerInvariant();
+                    contentType = extensao switch
+                    {
+                        ".jpg" or ".jpeg" => "image/jpeg",
+                        ".png" => "image/png",
+                        ".gif" => "image/gif",
+                        ".webp" => "image/webp",
+                        _ => "application/octet-stream"
+                    };
+
+                    var bytes = await System.IO.File.ReadAllBytesAsync(caminhoFisico);
+                    imagemBase64 = Convert.ToBase64String(bytes);
+                }
             }
-            catch (Exception ex)
+
+            return new PostResponseDto
             {
-                throw new ApplicationException("Erro ao buscar os posts no banco de dados.", ex);
-            }
+                Conteudo = post.Description ?? string.Empty,
+                DataPublicacao = post.PostDate,
+                ImagemUrl = post.ImagemUrl
+            };
         }
 
         public async Task<Posts?> UpdatePostAsync(Posts posts)

@@ -1,12 +1,13 @@
 ﻿using Instagram.API.Models;
+using Instagram.API.Models.Dtos;
 
 namespace Instagram.API.Repositorio
 {
     public interface IPostRepository
     {
         Task<Posts> CreatePosts(Posts posts);
-        Task<List<Posts>> GetPosts();
-        Task<Posts> GetPostById(int id);
+
+        Task<PostResponseDto> GetPostById(int id);
 
         Task<Posts> UpdatePostAsync(Posts posts);
 

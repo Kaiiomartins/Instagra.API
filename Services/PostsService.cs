@@ -1,4 +1,5 @@
 ﻿using Instagram.API.Models;
+using Instagram.API.Models.Dtos;
 using Instagram.API.Repositorio;
 
 namespace Instagram.API.Services
@@ -17,14 +18,9 @@ namespace Instagram.API.Services
             return await _postRepository.CreatePosts(posts);
         }
 
-        public async Task<Posts?> GetPostById(int id)
+        public async Task<PostResponseDto?> GetPostById(int id)
         {
             return await _postRepository.GetPostById(id);
-        }
-
-        public async Task<List<Posts>> GetPosts()
-        {
-            return await _postRepository.GetPosts();
         }
 
         public async Task<Posts?> UpdatePostAsync(Posts posts)
