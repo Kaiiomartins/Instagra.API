@@ -10,6 +10,7 @@ namespace Instagram.API.Repositorio
         Task<UserRequestDto> UpdateUser(UserRequestDto user);
         Task DeleteUser(string userName);
         Task<User?> GetUserByUsernameOrEmail(string username, string email);
+
     }
 
 

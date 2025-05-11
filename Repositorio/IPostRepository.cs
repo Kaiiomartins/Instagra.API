@@ -17,5 +17,6 @@ namespace Instagram.API.Repositorio
         Task<Posts> CreatePostWithImagemOrImageAsync(Posts posts, IFormFile imagem);
 
         Task<string?> GetImagePathOrDescription(int postId);
+
     }
 }

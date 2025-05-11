@@ -1,4 +1,5 @@
 ﻿using Instagram.API.Models;
+using Instagram.API.Models.Dtos;
 using Instagram.API.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,14 +10,13 @@ namespace Instagram.API.Controllers
     public class PostsController : ControllerBase
     {
 
-        private readonly PostsService _postsService;
+        private readonly IPostService _postsService;
+        private readonly IUserService _userService;
 
-        private readonly IConfiguration _configuration;
-
-        public PostsController(PostsService servicesPosts, IConfiguration configuration)
+        public PostsController(IPostService postsService, IUserService userService)
         {
-            _postsService = servicesPosts;
-            _configuration = configuration;
+            _postsService = postsService;
+            _userService = userService;
         }
 
         [HttpGet("{id}")]
@@ -24,89 +24,85 @@ namespace Instagram.API.Controllers
         {
             var post = await _postsService.GetPostById(id);
             if (post == null)
-            {
-                Console.WriteLine($"Post com ID {id} não encontrado.");
-                return null;
-            }
+                return NotFound();
 
             return Ok(post);
-
         }
+
         [HttpPost]
-        public async Task<IActionResult> CreatePost(
-            [FromForm] int userId,
-            [FromForm] string description,
-            [FromForm] string postType,
-            [FromForm] DateTime? postDate,
-            [FromForm] IFormFile? imagem)
+        public async Task<IActionResult> CreatePost([FromForm] PostResponseDto postDto, IFormFile? imagem)
         {
+            var InfoUser = await _userService.GetUserByUserName(postDto.UserName);
             var post = new Posts
             {
-                UserId = userId,
-                Description = description,
-                PostType = postType,
-                PostDate = postDate ?? DateTime.Now
+                Description = postDto.Conteudo,
+                PostDate = DateTime.Now,
+                UserId = postDto.id
             };
 
-            var existente = await _postsService.GetPostById(post.Id);
-            if (existente != null)
-                return BadRequest("Já existe esse post");
-
-            var criado = imagem != null && imagem.Length > 0
+            Posts createdPost = imagem != null && imagem.Length > 0
                 ? await _postsService.CreatePostWithImagemOrImageAsync(post, imagem)
                 : await _postsService.CreatePosts(post);
 
-            return Ok(criado);
-
+            return Ok(new
+            {
+                Conteudo = createdPost.Description,
+                Imagem = createdPost.ImagemUrl
+            });
 
         }
+
         [HttpGet("imagem/{postId}")]
         public async Task<IActionResult> VisualizarImagem(int postId)
         {
-            var caminhoRelativo = await _postsService.GetImagePathOrDescription(postId);
+            var relativePath = await _postsService.GetImagePathOrDescription(postId);
+            if (string.IsNullOrWhiteSpace(relativePath))
+                return NotFound();
 
-            if (string.IsNullOrEmpty(caminhoRelativo))
-                return NotFound("Imagem não encontrada.");
+            var fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", relativePath.TrimStart('/'));
 
-            var caminhoFisico = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", caminhoRelativo.TrimStart('/'));
+            if (!System.IO.File.Exists(fullPath))
+                return NotFound();
 
-            if (!System.IO.File.Exists(caminhoFisico))
-                return NotFound("Arquivo não existe no disco.");
-
-            var extensao = Path.GetExtension(caminhoFisico).ToLowerInvariant();
-            var contentType = extensao switch
+            var contentType = Path.GetExtension(fullPath).ToLower() switch
             {
                 ".jpg" or ".jpeg" => "image/jpeg",
                 ".png" => "image/png",
                 ".gif" => "image/gif",
-                ".webp" => "image/webp",
                 _ => "application/octet-stream"
             };
 
-            var bytes = await System.IO.File.ReadAllBytesAsync(caminhoFisico);
-            return File(bytes, contentType);
+            var imageBytes = await System.IO.File.ReadAllBytesAsync(fullPath);
+            return File(imageBytes, contentType);
         }
 
         [HttpPut]
-        public async Task<IActionResult> PutPost([FromBody] Posts posts)
+        public async Task<IActionResult> UpdatePost([FromBody] PostRequestDto post)
         {
-            var postExistente = await _postsService.GetPostById(posts.Id);
-            if (postExistente is null)
-                return NotFound(new { mensagem = "Post não encontrado." });
+            var InfoPost = new Posts
+            {
+                Description = post.Conteudo,
+                ImagemUrl = post.ImagemBase64,
+                PostDate = DateTime.Now,
+                UserId = post.userId
+            };
+            
+            var updated = await _postsService.UpdatePostAsync(InfoPost);
+            if (updated == null)
+                return NotFound();
 
-            var postAtualizado = await _postsService.UpdatePostAsync(posts);
-            return Ok(postAtualizado);
+            return Ok(updated);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePosts(int id)
+        public async Task<IActionResult> DeletePost(int id)
         {
-            var postExistente = await _postsService.GetPostById(id);
-            if (postExistente is null)
-                return NotFound(new { mensagem = "Post não encontrado." });
+            var deleted = await _postsService.GetPostById(id);
+            if (deleted == null)
+                return NotFound();
 
-            var postDeletado = await _postsService.DeletesPostAsync(id);
-            return Ok(postDeletado);
+            _postsService.DeletesPostAsync(deleted.id);
+            return Ok(deleted);
         }
     }
 }

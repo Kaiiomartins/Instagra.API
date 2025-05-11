@@ -12,7 +12,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IUserRepository, UserRepository>();  
 builder.Services.AddScoped<IPostRepository, PostRepository>();  
 builder.Services.AddTransient<IUserService, UserService>();
-builder.Services.AddTransient<PostsService>();
+builder.Services.AddScoped<IPostService, PostsService>();
+
 
 builder.Services.AddCors(options =>
 {
