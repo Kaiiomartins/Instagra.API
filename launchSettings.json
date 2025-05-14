@@ -1,12 +1,13 @@
-{
+﻿{
   "profiles": {
-    "Instagram.API": {
+    "Project": {
       "commandName": "Project",
+      "dotnetRunMessages": true,
       "launchBrowser": true,
+      "applicationUrl": "https://localhost:53773",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "https://localhost:53772;http://localhost:53773"
+      }
     }
   }
 }

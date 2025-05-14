@@ -1,27 +1,22 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data;
-using Microsoft.AspNetCore.Mvc;
+using Instagram.API.Models.Dtos;
 
-namespace Instagram.API.Model
+namespace Instagram.API.Models
 {
-
     [Table ("Users")]
     public class User 
     {
+        #region Properties
         [Key]
-        public  int Id { get; set; }
-
+        public int Id { get; set; }
         
         [StringLength(11)]
-        public string cpf { get; set; }
+        public string Cpf { get; set; }
 
         [Required]
         [StringLength(255)]
         public string UserName { get; set; }
-
 
         [Required]
         [StringLength(255)]
@@ -30,30 +25,28 @@ namespace Instagram.API.Model
         [StringLength(255)]
         public string Email { get; set;  }
 
+        [Required]
+        public DateTime DataNascimento { get; set; }
 
-        public DateTime? DataNascimento { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
-        public DateTime? CreatedAt { get; set; } = DateTime.Now;
+        public   DateTime? UpdatedAt { get; set; }
 
-        public   DateTime ? UpdatedAt { get; set; } = DateTime.Now;
+        #endregion
 
-
-        public string GetDataNascimentoFormatted()
+        public static User Create(UserRequestDto userDto)
         {
-            return DataNascimento?.ToString("dd/MM/yyyy") ?? string.Empty;
-        }
-
-        public string GetCreatedAtFormatted()
-        {
-            return CreatedAt?.ToString("dd/MM/yyyy") ?? string.Empty;
-        }
-
-        public string GetUpdatedAtFormatted()
-        {
-            return UpdatedAt?.ToString("dd/MM/yyyy") ?? string.Empty;
+            return new User
+            {
+                Cpf = userDto.Cpf,
+                UserName = userDto.UserName,
+                Password = userDto.Password,
+                Email = userDto.Email,
+                DataNascimento = userDto.DataNascimento,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = null
+            };
         }
     }
-
-
 }
 
