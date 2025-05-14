@@ -10,5 +10,8 @@
 
         public string? ImagemBase64 { get; set; }       
         public string? ImagemContentType { get; set; }
+        public string UserName { get; set; }
+
+
     }
 }

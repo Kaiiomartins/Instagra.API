@@ -30,14 +30,14 @@ namespace Instagram.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreatePost([FromForm] PostResponseDto postDto, IFormFile? imagem)
+        public async Task<IActionResult> CreatePost([FromForm] PostRequestDto postDto)
         {
             var InfoUser = await _userService.GetUserByUserName(postDto.UserName);
             var post = new Posts
             {
                 Description = postDto.Conteudo,
                 PostDate = DateTime.Now,
-                UserId = postDto.id
+                UserId = InfoUser.
             };
 
             Posts createdPost = imagem != null && imagem.Length > 0
@@ -101,8 +101,8 @@ namespace Instagram.API.Controllers
             if (deleted == null)
                 return NotFound();
 
-            _postsService.DeletesPostAsync(deleted.id);
-            return Ok(deleted);
+            await _postsService.DeletesPostAsync(deleted.id);
+            return NoContent();
         }
     }
 }
