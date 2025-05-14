@@ -7,61 +7,57 @@ namespace Instagram.API.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-
-       
-
         public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
-           
-
         }
 
-        public async Task<UserRequestDto?> GetUserByUserName(string UserName)
+        public async Task<bool> Login(LoginRequestDto userDto)
         {
-            return await _userRepository.GetUserByUserName(UserName);
+            var user = await _userRepository.GetUserLogin(userDto.UserName, userDto.Email, userDto.Password);
+            return user != null;
         }
 
-        public async Task<UserRequestDto> CreateUser(UserRequestDto userDto)
+        public async Task<UserResponseDto?> GetUserByUsernameOrEmail(string username, string email = null)
         {
-            var user = new User
+            var user = await _userRepository.GetUserByUsernameOrEmail(username, email);
+            if (user == null)
+                return null;    
+
+            return  new UserResponseDto
             {
-                UserName = userDto.UserName,
-                Email = userDto.Email,
-                Password = userDto.Password,
-                DataNascimento = userDto.DataNascimento,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                DataNascimento = user.DataNascimento,
+                Cpf = user.Cpf
             };
-
-            return await _userRepository.CreateUser(userDto);
         }
 
-        public async Task<UserRequestDto?> UpdateUser(UserRequestDto user)
+        public async Task CreateUser(UserRequestDto userDto)
         {
-            var existingUser = await _userRepository.GetUserByUserName(user.UserName);
-            if (existingUser == null)
-                return null;
-
-            
-            existingUser.UserName = user.UserName;
-            existingUser.Email = user.Email;
-            existingUser.DataNascimento = user.DataNascimento;
-            existingUser.Password = user.Password;
-            
-            
-
-            return await _userRepository.UpdateUser(existingUser);
+            var user = User.Create(userDto);
+            await _userRepository.CreateUser(user);
         }
 
-        public async Task DeleteUser(string UserName)
+        public async Task UpdateUser(UserRequestDto userDto)
         {
-            await _userRepository.DeleteUser(UserName);
+            var userExistente = await _userRepository.GetUserByUsernameOrEmail(userDto.UserName);
+            if (userExistente == null)
+                throw new Exception("Usuário não encontrado!");
+
+            userExistente.Cpf = userDto.Cpf;
+            userExistente.UserName = userDto.UserName;
+            userExistente.Email = userDto.Email;
+            userExistente.DataNascimento = userDto.DataNascimento;
+            userExistente.UpdatedAt = DateTime.Now;
+
+            await _userRepository.UpdateUser(userExistente);
         }
 
-        public async Task<User?> GetUserByUsernameOrEmail(string username, string email)
+        public async Task DeleteUser(string userName)
         {
-            return await _userRepository.GetUserByUsernameOrEmail(username, email);
+            await _userRepository.DeleteUser(userName);
         }
     }
 }

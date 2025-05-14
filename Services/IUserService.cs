@@ -1,17 +1,14 @@
-﻿using Instagram.API.Models;
-using Instagram.API.Models.Dtos;
+﻿using Instagram.API.Models.Dtos;
 using Instagram.API.Repositorio;
 
 namespace Instagram.API.Services
 {
-    // ISP
-    // DIP
-    public interface IUserService : IUserRepository
+    public interface IUserService
     {
-        Task<UserRequestDto?> GetUserByUserName(string UserName);
-        Task<UserRequestDto> CreateUser(UserRequestDto user);
-        Task<UserRequestDto> UpdateUser(UserRequestDto user);
+        Task<UserResponseDto?> GetUserByUsernameOrEmail(string username, string email = null);
+        Task CreateUser(UserRequestDto userDto);
+        Task UpdateUser(UserRequestDto userDto);
         Task DeleteUser(string userName);
-        Task<User?> GetUserByUsernameOrEmail(string username, string email);
+        Task<bool> Login(LoginRequestDto userDto);
     }
 }

@@ -4,8 +4,6 @@ VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Instagram.API", "Instagram.API.csproj", "{F6D6892A-C026-ECDF-2137-59BFDF649BF2}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Instagram.DB", "Database1\Instagram.DB.sqlproj", "{37914EFE-6B8B-4FB5-8A2F-3D5970E6A8BC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -16,12 +14,6 @@ Global
 		{F6D6892A-C026-ECDF-2137-59BFDF649BF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6D6892A-C026-ECDF-2137-59BFDF649BF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6D6892A-C026-ECDF-2137-59BFDF649BF2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{37914EFE-6B8B-4FB5-8A2F-3D5970E6A8BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{37914EFE-6B8B-4FB5-8A2F-3D5970E6A8BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{37914EFE-6B8B-4FB5-8A2F-3D5970E6A8BC}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{37914EFE-6B8B-4FB5-8A2F-3D5970E6A8BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{37914EFE-6B8B-4FB5-8A2F-3D5970E6A8BC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{37914EFE-6B8B-4FB5-8A2F-3D5970E6A8BC}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Instagram.API.Models;
 using Instagram.API.Services;
 using Instagram.API.Models.Dtos;
 
@@ -17,13 +16,14 @@ namespace Instagram.API.Controllers
             _userService = userService;
             _configuration = configuration;
         }
+
         // USERS
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetUser(string userName)
+        [HttpGet("{username}")]
+        public async Task<IActionResult> GetUser(string username)
         {
-            var user = await _userService.GetUserByUserName(userName);
+            var user = await _userService.GetUserByUsernameOrEmail(username);
             if (user == null)
-                return BadRequest("Usuário não encontrado");
+                return NotFound();
 
             return Ok(user);
         }
@@ -31,29 +31,25 @@ namespace Instagram.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] UserRequestDto userDto)
         {
-            var user = await _userService.CreateUser(userDto);
-            return CreatedAtAction(nameof(GetUser), new { userName = user.UserName }, user);
+            await _userService.CreateUser(userDto);
+            return StatusCode(StatusCodes.Status201Created, "Usuário criado com sucesso");
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody] UserRequestDto user)
         {
-            var existingUser = await _userService.GetUserByUserName(user.UserName);
-            if (existingUser == null)
-                return NotFound("Usuário não encontrado");
-
-            await _userService.UpdateUser(existingUser);
-            return Ok("Usuário atualizado com sucesso");
+            await _userService.UpdateUser(user);
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(string userNamer)
+        public async Task<IActionResult> DeleteUser(string username)
         {
-            var user = await _userService.GetUserByUserName(userNamer);
+            var user = await _userService.GetUserByUsernameOrEmail(username);
             if (user == null) return NotFound("Usuário não encontrado");
 
-            await _userService.DeleteUser(userNamer);
-            return Ok("Usuário deletado com sucesso");
+            await _userService.DeleteUser(username);
+            return NoContent();
         }
     }
 }

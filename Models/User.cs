@@ -9,15 +9,14 @@ namespace Instagram.API.Models
     {
         #region Properties
         [Key]
-        public  int Id { get; set; }
+        public int Id { get; set; }
         
         [StringLength(11)]
-        public string cpf { get; set; }
+        public string Cpf { get; set; }
 
         [Required]
         [StringLength(255)]
         public string UserName { get; set; }
-
 
         [Required]
         [StringLength(255)]
@@ -26,11 +25,12 @@ namespace Instagram.API.Models
         [StringLength(255)]
         public string Email { get; set;  }
 
-        public DateTime? DataNascimento { get; set; }
+        [Required]
+        public DateTime DataNascimento { get; set; }
 
-        public DateTime? CreatedAt { get; set; } = DateTime.Now;
+        public DateTime? CreatedAt { get; set; }
 
-        public   DateTime ? UpdatedAt { get; set; } = DateTime.Now;
+        public   DateTime? UpdatedAt { get; set; }
 
         #endregion
 
@@ -38,7 +38,7 @@ namespace Instagram.API.Models
         {
             return new User
             {
-                cpf = userDto.Cpf,
+                Cpf = userDto.Cpf,
                 UserName = userDto.UserName,
                 Password = userDto.Password,
                 Email = userDto.Email,
@@ -47,22 +47,6 @@ namespace Instagram.API.Models
                 UpdatedAt = null
             };
         }
-
-        public string GetDataNascimentoFormatted()
-        {
-            return DataNascimento?.ToString("dd/MM/yyyy") ?? string.Empty;
-        }
-
-        public string GetCreatedAtFormatted()
-        {
-            return CreatedAt?.ToString("dd/MM/yyyy") ?? string.Empty;
-        }
-
-        public string GetUpdatedAtFormatted()
-        {
-            return UpdatedAt?.ToString("dd/MM/yyyy") ?? string.Empty;
-        }
     }
-
 }
 

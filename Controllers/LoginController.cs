@@ -1,4 +1,5 @@
 ﻿using Instagram.API.Models;
+using Instagram.API.Models.Dtos;
 using Instagram.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -21,32 +22,21 @@ namespace Instagram.API.Controllers
         }
         // LOGIN
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] User userDto)
+        public async Task<IActionResult> Login([FromBody] LoginRequestDto userDto)
         {
-            var usuario = await _userService.GetUserByUsernameOrEmail(userDto.UserName, userDto.Email);
-
-            if (usuario == null || usuario.Password != userDto.Password)
+            var canLogin = await _userService.Login(userDto);
+            if (!canLogin)
                 return Unauthorized(new { mensagem = "Usuário ou senha inválidos." });
 
-            var token = GerarToken(usuario);
-
-            return Ok(new
-            {
-                token,
-                usuario = new
-                {
-                    usuario.Id,
-                    usuario.UserName,
-                    usuario.Email
-                }
-            });
+            var token = GerarToken(userDto.UserName);
+            return Ok(token);
         }
 
-        private string GerarToken(User user)
+        private string GerarToken(string userName)
         {
             var claims = new[]
             {
-                new Claim("UserId", user.Id.ToString())
+                new Claim("UserName", userName)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -62,11 +52,5 @@ namespace Instagram.API.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-        public IActionResult Index()
-        {
-            var model = new { Message = "Bem-vindo à página inicial!" };
-            return View(model);
-        }
-
     }
 }

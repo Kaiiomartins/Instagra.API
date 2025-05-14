@@ -32,16 +32,19 @@ namespace Instagram.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreatePost([FromForm] PostRequestDto postDto)
         {
-            var InfoUser = await _userService.GetUserByUserName(postDto.UserName);
+            var user = await _userService.GetUserByUsernameOrEmail(postDto.UserName);
+            if (user == null)
+                return NotFound("Usuário não encontrado!");
+
             var post = new Posts
             {
                 Description = postDto.Conteudo,
                 PostDate = DateTime.Now,
-                UserId = InfoUser.
+                UserId = user.Id
             };
 
-            Posts createdPost = imagem != null && imagem.Length > 0
-                ? await _postsService.CreatePostWithImagemOrImageAsync(post, imagem)
+            Posts createdPost = postDto.Imagem != null 
+                ? await _postsService.CreatePostWithImagemOrImageAsync(post, postDto.Imagem)
                 : await _postsService.CreatePosts(post);
 
             return Ok(new
@@ -49,7 +52,6 @@ namespace Instagram.API.Controllers
                 Conteudo = createdPost.Description,
                 Imagem = createdPost.ImagemUrl
             });
-
         }
 
         [HttpGet("imagem/{postId}")]
