@@ -18,5 +18,7 @@ namespace Instagram.API.Services
 
         Task<string?> GetImagePathOrDescription(int postId);
 
+        Task<object?> GetPostComImagemBase64(int id);
+
     }
 }

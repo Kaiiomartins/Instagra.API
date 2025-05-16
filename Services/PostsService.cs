@@ -42,5 +42,42 @@ namespace Instagram.API.Services
         {
             return await _postRepository.GetImagePathOrDescription(postId);
         }
+        public async Task<object?> GetPostComImagemBase64(int id)
+        {
+            var post = await GetPostById(id);
+            if (post == null)
+                return null;
+
+            var relativePath = await GetImagePathOrDescription(id);
+            string? imagemBase64 = null;
+
+            if (!string.IsNullOrWhiteSpace(relativePath))
+            {
+                var fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", relativePath.TrimStart('/'));
+
+                if (File.Exists(fullPath))
+                {
+                    var imageBytes = await File.ReadAllBytesAsync(fullPath);
+
+                    var contentType = Path.GetExtension(fullPath).ToLower() switch
+                    {
+                        ".jpg" or ".jpeg" => "image/jpeg",
+                        ".png" => "image/png",
+                        ".gif" => "image/gif",
+                        _ => "application/octet-stream"
+                    };
+
+                    imagemBase64 = $"data:{contentType};base64,{Convert.ToBase64String(imageBytes)}";
+                }
+            }
+
+            return new
+            {
+                Post = post,
+                ImagemBase64 = imagemBase64
+            };
+        }
+
+
     }
 }

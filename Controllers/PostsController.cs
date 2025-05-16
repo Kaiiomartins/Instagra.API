@@ -18,17 +18,6 @@ namespace Instagram.API.Controllers
             _postsService = postsService;
             _userService = userService;
         }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetPostById(int id)
-        {
-            var post = await _postsService.GetPostById(id);
-            if (post == null)
-                return NotFound();
-
-            return Ok(post);
-        }
-
         [HttpPost]
         public async Task<IActionResult> CreatePost([FromForm] PostRequestDto postDto)
         {
@@ -54,31 +43,19 @@ namespace Instagram.API.Controllers
             });
         }
 
-        [HttpGet("imagem/{postId}")]
-        public async Task<IActionResult> VisualizarImagem(int postId)
+        [HttpGet("completo/{id}")]
+        public async Task<IActionResult> GetPostComImagem(int id)
         {
-            var relativePath = await _postsService.GetImagePathOrDescription(postId);
-            if (string.IsNullOrWhiteSpace(relativePath))
+            var resultado = await _postsService.GetPostComImagemBase64(id);
+
+            if (resultado == null)
                 return NotFound();
 
-            var fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", relativePath.TrimStart('/'));
+            return Ok(resultado);
 
-            if (!System.IO.File.Exists(fullPath))
-                return NotFound();
-
-            var contentType = Path.GetExtension(fullPath).ToLower() switch
-            {
-                ".jpg" or ".jpeg" => "image/jpeg",
-                ".png" => "image/png",
-                ".gif" => "image/gif",
-                _ => "application/octet-stream"
-            };
-
-            var imageBytes = await System.IO.File.ReadAllBytesAsync(fullPath);
-            return File(imageBytes, contentType);
         }
 
-        [HttpPut]
+            [HttpPut]
         public async Task<IActionResult> UpdatePost([FromBody] PostRequestDto post)
         {
             var InfoPost = new Posts
