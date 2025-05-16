@@ -9,7 +9,7 @@ namespace Instagram.API.Controllers
     [Route("post")]
     public class PostsController : ControllerBase
     {
-
+       // Foi atualizado endpoint de imagens para poder retorna-las com id. 
         private readonly IPostService _postsService;
         private readonly IUserService _userService;
 
@@ -43,7 +43,7 @@ namespace Instagram.API.Controllers
             });
         }
 
-        [HttpGet("completo/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetPostComImagem(int id)
         {
             var resultado = await _postsService.GetPostComImagemBase64(id);
