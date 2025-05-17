@@ -1,4 +1,4 @@
-﻿namespace Instagram.API.Repositorio
+﻿namespace Instagram.API.Models.Dtos
 {
     public class UserResponseDto
     {

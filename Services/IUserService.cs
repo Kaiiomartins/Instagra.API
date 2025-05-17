@@ -1,5 +1,4 @@
 ﻿using Instagram.API.Models.Dtos;
-using Instagram.API.Repositorio;
 
 namespace Instagram.API.Services
 {
