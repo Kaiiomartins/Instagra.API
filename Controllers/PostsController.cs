@@ -33,13 +33,13 @@ namespace Instagram.API.Controllers
             };
 
             Posts createdPost = postDto.Imagem != null 
-                ? await _postsService.CreatePostWithImagemOrImageAsync(post, postDto.Imagem)
+                ? await _postsService.CreatePostWithImagemOrImageAsync(post)
                 : await _postsService.CreatePosts(post);
 
             return Ok(new
             {
                 Conteudo = createdPost.Description,
-                Imagem = createdPost.ImagemUrl
+                Imagem = createdPost.ImagemBinaria
             });
         }
 
@@ -61,7 +61,7 @@ namespace Instagram.API.Controllers
             var InfoPost = new Posts
             {
                 Description = post.Conteudo,
-                ImagemUrl = post.ImagemBase64,
+                ImagemBinaria  = Convert.FromBase64String(post.ImagemBase64),
                 PostDate = DateTime.Now,
                 UserId = post.userId
             };

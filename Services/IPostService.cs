@@ -14,7 +14,7 @@ namespace Instagram.API.Services
 
         Task<Posts> DeletesPostAsync(int id);
 
-        Task<Posts> CreatePostWithImagemOrImageAsync(Posts posts, IFormFile imagem);
+        Task<Posts> CreatePostWithImagemOrImageAsync(Posts posts);
 
         Task<string?> GetImagePathOrDescription(int postId);
 

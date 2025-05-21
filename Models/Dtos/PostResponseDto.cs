@@ -11,8 +11,7 @@
         public string? ImagemUrl { get; set; }
 
         public string UserName { get; set; }
-
-     
+        public string? ImagemBinaria { get; internal set; }
     }
 
 }

@@ -1,6 +1,7 @@
 ﻿using Instagram.API.Models;
 using Instagram.API.Models.Dtos;
 using Instagram.API.Repositorio;
+using System.Drawing;
 
 namespace Instagram.API.Services
 {
@@ -33,9 +34,11 @@ namespace Instagram.API.Services
             return await _postRepository.DeletesPostAsync(id);
         }
 
-        public async Task<Posts> CreatePostWithImagemOrImageAsync(Posts posts, IFormFile imagem)
+        public async Task<Posts> CreatePostWithImagemOrImageAsync(Posts posts)
         {
-            return await _postRepository.CreatePostWithImagemOrImageAsync(posts, imagem);
+       
+                return await _postRepository.CreatePostWithImagemOrImageAsync(posts);
+            
         }
 
         public async Task<string?> GetImagePathOrDescription(int postId)

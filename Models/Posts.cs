@@ -11,7 +11,7 @@ namespace Instagram.API.Models
 
         public string? Description { get; set; }
 
-        public string? ImagemUrl { get; set; }
+        public byte[]? ImagemBinaria { get; set; }
 
         public string? PostType { get; set; }
 
@@ -22,5 +22,6 @@ namespace Instagram.API.Models
         public int UserId { get; set; }
 
         public virtual User User { get; set; }
+        public int Length { get; internal set; }
     }
 }

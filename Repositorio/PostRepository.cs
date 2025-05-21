@@ -29,12 +29,12 @@ namespace Instagram.API.Repositorio
             string? imagemBase64 = null;
             string? contentType = null;
 
-            if (!string.IsNullOrEmpty(post.ImagemUrl))
+            if (post.ImagemBinaria != null && post.ImagemBinaria.Length > 0)
             {
-                var caminhoFisico = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", post.ImagemUrl.TrimStart('/'));
-                if (System.IO.File.Exists(caminhoFisico))
+                
+                if (System.IO.File.Exists(imagemBase64))
                 {
-                    var extensao = Path.GetExtension(caminhoFisico).ToLowerInvariant();
+                    var extensao = Path.GetExtension(imagemBase64.ToLowerInvariant());
                     contentType = extensao switch
                     {
                         ".jpg" or ".jpeg" => "image/jpeg",
@@ -44,7 +44,7 @@ namespace Instagram.API.Repositorio
                         _ => "application/octet-stream"
                     };
 
-                    var bytes = await System.IO.File.ReadAllBytesAsync(caminhoFisico);
+                    var bytes = await System.IO.File.ReadAllBytesAsync(imagemBase64);
                     imagemBase64 = Convert.ToBase64String(bytes);
                 }
             }
@@ -53,7 +53,7 @@ namespace Instagram.API.Repositorio
             {
                 Conteudo = post.Description ?? string.Empty,
                 DataPublicacao = post.PostDate,
-                ImagemUrl = post.ImagemUrl
+                ImagemBinaria = Convert.ToBase64String(post.ImagemBinaria)
             };
         }
 
@@ -83,46 +83,31 @@ namespace Instagram.API.Repositorio
             return post;
         }
 
-        public async Task<Posts> CreatePostWithImagemOrImageAsync(Posts posts, IFormFile? imagem)
+        public async Task<Posts> CreatePostWithImagemOrImageAsync(Posts posts)
         {
-            if (imagem != null && imagem.Length > 0)
-            {
-                var nomeArquivo = $"{Guid.NewGuid()}{Path.GetExtension(imagem.FileName)}";
-                var caminho = Path.Combine("wwwroot/imagens", nomeArquivo);
+            if (posts != null && posts.Length > 0)
+            { 
 
-                Directory.CreateDirectory(Path.GetDirectoryName(caminho)!);
+                return null; 
+             }
+                posts.PostDate = DateTime.Now;
 
-                using (var stream = new FileStream(caminho, FileMode.Create))
-                {
-                    await imagem.CopyToAsync(stream);
-                }
+                await _context.Posts.AddAsync(posts);
+                await _context.SaveChangesAsync();
 
-                posts.ImagemUrl = $"/imagens/{nomeArquivo}";
-            }
-
-            posts.PostDate = DateTime.Now;
-
-            await _context.Posts.AddAsync(posts);
-            await _context.SaveChangesAsync();
-
-            return await _context.Posts
-                .Include(u => u.User)
-                .FirstOrDefaultAsync(p => p.Id == posts.Id);
+                return await _context.Posts
+                    .Include(u => u.User)
+                    .FirstOrDefaultAsync(p => p.Id == posts.Id);
+            
         }
 
         public async Task<string?> GetImagePathOrDescription(int postId)
         {
             var post = await _context.Posts.FindAsync(postId);
-
-            if (post == null || string.IsNullOrEmpty(post.ImagemUrl))
+            if (post == null || post.ImagemBinaria == null || post.ImagemBinaria.Length == 0)
                 return null;
 
-            var caminhoFisico = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", post.ImagemUrl.TrimStart('/'));
-
-            if (!File.Exists(caminhoFisico))
-                return null;
-
-            return post.ImagemUrl;
+            return Convert.ToBase64String(post.ImagemBinaria);
         }
     }
 }
