@@ -9,32 +9,30 @@ namespace Instagram.API.Services
     public class PostsService : IPostService
     {
         private readonly IPostRepository _postRepository;
-        private readonly AppDbContext _appDbContext;
-
-        public PostsService(IPostRepository postRepository, AppDbContext appDbContext)
+        
+        public PostsService(IPostRepository postRepository)
         {
             _postRepository = postRepository;
-            _appDbContext = appDbContext;
+            
         }
         public async Task<Posts> CreatePosts(Posts posts)
         {
             return await _postRepository.CreatePosts(posts);
         }
-
         public async Task<PostResponseDto?> GetPostById(int id)
         {
-            var post = await _appDbContext.Posts.FindAsync(id);
+            var post = await _postRepository.GetPostById(id);
             if (post == null)
                 return null;
 
             return new PostResponseDto
             {
 
-                id = post.UserId,
-                Conteudo = post.Description,
-                DataPublicacao = post.PostDate,
-                ImagemBinaria = post.ImageBinario != null ? Convert.ToBase64String(post.ImageBinario) : null
-            };
+                id = post.id,
+                Conteudo = post.Conteudo,
+                DataPublicacao = post.DataPublicacao,
+                ImageBinaria = post.ImageBinaria
+            }; 
         }
 
         public async Task<Posts?> UpdatePostAsync(Posts posts)
@@ -53,7 +51,6 @@ namespace Instagram.API.Services
                 return await _postRepository.CreatePostWithImagemOrImageAsync(posts);
             
         }
-
         public async Task<string?> GetImagePathOrDescription(int postId)
         {
             return await _postRepository.GetImagePathOrDescription(postId);
@@ -69,13 +66,12 @@ namespace Instagram.API.Services
 
             if (!string.IsNullOrWhiteSpace(relativePath))
             {
-                var fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", relativePath.TrimStart('/'));
 
-                if (File.Exists(fullPath))
+                if (File.Exists(relativePath))
                 {
-                    var imageBytes = await File.ReadAllBytesAsync(fullPath);
+                    var imageBytes = await File.ReadAllBytesAsync(relativePath);
 
-                    var contentType = Path.GetExtension(fullPath).ToLower() switch
+                    var contentType = Path.GetExtension(relativePath).ToLower() switch
                     {
                         ".jpg" or ".jpeg" => "image/jpeg",
                         ".png" => "image/png",
@@ -86,14 +82,11 @@ namespace Instagram.API.Services
                     imagemBase64 = $"data:{contentType};base64,{Convert.ToBase64String(imageBytes)}";
                 }
             }
-
             return new
             {
                 Post = post
                 
             };
         }
-
-
     }
 }

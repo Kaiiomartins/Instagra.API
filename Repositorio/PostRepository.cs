@@ -53,7 +53,7 @@ namespace Instagram.API.Repositorio
             {
                 Conteudo = post.Description ?? string.Empty,
                 DataPublicacao = post.PostDate,
-                ImagemBinaria = Convert.ToBase64String(post.ImageBinario)
+                ImageBinaria = Convert.ToBase64String(post.ImageBinario)
             };
         }
 
