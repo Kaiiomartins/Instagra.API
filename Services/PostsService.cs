@@ -33,7 +33,7 @@ namespace Instagram.API.Services
                 id = post.UserId,
                 Conteudo = post.Description,
                 DataPublicacao = post.PostDate,
-                ImagemBinaria = post.ImagemBinaria != null ? Convert.ToBase64String(post.ImagemBinaria) : null
+                ImagemBinaria = post.ImageBinario != null ? Convert.ToBase64String(post.ImageBinario) : null
             };
         }
 

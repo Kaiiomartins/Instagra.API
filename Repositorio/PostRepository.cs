@@ -29,7 +29,7 @@ namespace Instagram.API.Repositorio
             string? imagemBase64 = null;
             string? contentType = null;
 
-            if (post.ImagemBinaria != null && post.ImagemBinaria.Length > 0)
+            if (post.ImageBinario != null && post.ImageBinario.Length > 0)
             {
                 
                 if (System.IO.File.Exists(imagemBase64))
@@ -53,7 +53,7 @@ namespace Instagram.API.Repositorio
             {
                 Conteudo = post.Description ?? string.Empty,
                 DataPublicacao = post.PostDate,
-                ImagemBinaria = Convert.ToBase64String(post.ImagemBinaria)
+                ImagemBinaria = Convert.ToBase64String(post.ImageBinario)
             };
         }
 
@@ -99,10 +99,10 @@ namespace Instagram.API.Repositorio
         public async Task<string?> GetImagePathOrDescription(int postId)
         {
             var post = await _context.Posts.FindAsync(postId);
-            if (post == null || post.ImagemBinaria == null || post.ImagemBinaria.Length == 0)
+            if (post == null || post.ImageBinario == null || post.ImageBinario.Length == 0)
                 return null;
 
-            return Convert.ToBase64String(post.ImagemBinaria);
+            return Convert.ToBase64String(post.ImageBinario);
         }
     }
 }

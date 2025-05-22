@@ -9,7 +9,6 @@ namespace Instagram.API.Controllers
     [Route("post")]
     public class PostsController : ControllerBase
     {
-       // Foi atualizado endpoint de imagens para poder retorna-las com id. 
         private readonly IPostService _postsService;
         private readonly IUserService _userService;
         private byte[] imagemBytes;
@@ -44,7 +43,7 @@ namespace Instagram.API.Controllers
                 Description = postDto.Conteudo,
                 PostDate = DateTime.Now,
                 UserId = user.Id,
-                ImagemBinaria = imagemBytes
+                ImageBinario = imagemBytes
             };
 
             var createdPost = await _postsService.CreatePosts(post);
@@ -52,8 +51,8 @@ namespace Instagram.API.Controllers
             return Ok(new
             {
                 Conteudo = createdPost.Description,
-                Imagem = createdPost.ImagemBinaria != null && contentType != null
-                    ? $"data:{contentType};base64,{Convert.ToBase64String(createdPost.ImagemBinaria)}"
+                Imagem = createdPost.ImageBinario != null && contentType != null
+                    ? $"data:{contentType};base64,{Convert.ToBase64String(createdPost.ImageBinario)}"
                     : null
             });
         }
@@ -70,7 +69,7 @@ namespace Instagram.API.Controllers
 
         }
 
-            [HttpPut]
+        [HttpPut]
         public async Task<IActionResult> UpdatePost([FromForm] PostRequestDto post)
         {
             byte[] imagemBytes;
@@ -84,7 +83,7 @@ namespace Instagram.API.Controllers
             var infoPost = new Posts
             {
                 Description = post.Conteudo,
-                ImagemBinaria = imagemBytes,
+                ImageBinario = imagemBytes,
                 PostDate = DateTime.Now,
                 UserId = post.userId,
                 Id = post.Id,
