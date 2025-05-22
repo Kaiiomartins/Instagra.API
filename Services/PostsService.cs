@@ -1,19 +1,21 @@
 ﻿using Instagram.API.Models;
 using Instagram.API.Models.Dtos;
 using Instagram.API.Repositorio;
-using System.Drawing;
+using Instagram.API.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Instagram.API.Services
 {
     public class PostsService : IPostService
     {
         private readonly IPostRepository _postRepository;
+        private readonly AppDbContext _appDbContext;
 
-        public PostsService(IPostRepository postRepository)
+        public PostsService(IPostRepository postRepository, AppDbContext appDbContext)
         {
             _postRepository = postRepository;
+            _appDbContext = appDbContext;
         }
-
         public async Task<Posts> CreatePosts(Posts posts)
         {
             return await _postRepository.CreatePosts(posts);
@@ -21,7 +23,18 @@ namespace Instagram.API.Services
 
         public async Task<PostResponseDto?> GetPostById(int id)
         {
-            return await _postRepository.GetPostById(id);
+            var post = await _appDbContext.Posts.FindAsync(id);
+            if (post == null)
+                return null;
+
+            return new PostResponseDto
+            {
+
+                id = post.UserId,
+                Conteudo = post.Description,
+                DataPublicacao = post.PostDate,
+                ImagemBinaria = post.ImagemBinaria != null ? Convert.ToBase64String(post.ImagemBinaria) : null
+            };
         }
 
         public async Task<Posts?> UpdatePostAsync(Posts posts)
@@ -76,8 +89,8 @@ namespace Instagram.API.Services
 
             return new
             {
-                Post = post,
-                ImagemBase64 = imagemBase64
+                Post = post
+                
             };
         }
 

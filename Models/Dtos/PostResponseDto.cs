@@ -1,4 +1,8 @@
-﻿namespace Instagram.API.Models.Dtos
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
+
+namespace Instagram.API.Models.Dtos
 {
     public class PostResponseDto
     {
@@ -12,6 +16,7 @@
 
         public string UserName { get; set; }
         public string? ImagemBinaria { get; internal set; }
+
     }
 
 }

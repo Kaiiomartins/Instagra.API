@@ -2,6 +2,7 @@
 {
     public class PostRequestDto
     {
+        public int Id { get; set; }
         public int userId { get; set; }
         public string? Titulo { get; set; }             
         public string? Conteudo { get; set; }           

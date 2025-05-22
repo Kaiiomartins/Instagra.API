@@ -71,17 +71,26 @@ namespace Instagram.API.Controllers
         }
 
             [HttpPut]
-        public async Task<IActionResult> UpdatePost([FromBody] PostRequestDto post)
+        public async Task<IActionResult> UpdatePost([FromForm] PostRequestDto post)
         {
-            var InfoPost = new Posts
+            byte[] imagemBytes;
+
+            using (var memoryStream = new MemoryStream())
+            {
+                await post.Imagem.CopyToAsync(memoryStream);
+                imagemBytes = memoryStream.ToArray();
+            }
+
+            var infoPost = new Posts
             {
                 Description = post.Conteudo,
-                ImagemBinaria  = Convert.FromBase64String(post.ImagemBase64),
+                ImagemBinaria = imagemBytes,
                 PostDate = DateTime.Now,
-                UserId = post.userId
+                UserId = post.userId,
+                Id = post.Id,
             };
-            
-            var updated = await _postsService.UpdatePostAsync(InfoPost);
+
+            var updated = await _postsService.UpdatePostAsync(infoPost);
             if (updated == null)
                 return NotFound();
 
