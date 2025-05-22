@@ -22,6 +22,6 @@ namespace Instagram.API.Models
         public int UserId { get; set; }
 
         public virtual User User { get; set; }
-        public int Length { get; internal set; }
+        
     }
 }

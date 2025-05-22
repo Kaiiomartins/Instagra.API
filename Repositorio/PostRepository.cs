@@ -85,11 +85,6 @@ namespace Instagram.API.Repositorio
 
         public async Task<Posts> CreatePostWithImagemOrImageAsync(Posts posts)
         {
-            if (posts != null && posts.Length > 0)
-            { 
-
-                return null; 
-             }
                 posts.PostDate = DateTime.Now;
 
                 await _context.Posts.AddAsync(posts);

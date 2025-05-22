@@ -12,6 +12,7 @@ namespace Instagram.API.Controllers
        // Foi atualizado endpoint de imagens para poder retorna-las com id. 
         private readonly IPostService _postsService;
         private readonly IUserService _userService;
+        private byte[] imagemBytes;
 
         public PostsController(IPostService postsService, IUserService userService)
         {
@@ -25,21 +26,35 @@ namespace Instagram.API.Controllers
             if (user == null)
                 return NotFound("Usuário não encontrado!");
 
+            byte[]? imagemBytes = null;
+            string? contentType = null;
+
+            if (postDto.Imagem != null && postDto.Imagem.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await postDto.Imagem.CopyToAsync(memoryStream);
+                    imagemBytes = memoryStream.ToArray();
+                    contentType = postDto.Imagem.ContentType;
+                }
+            }
+
             var post = new Posts
             {
                 Description = postDto.Conteudo,
                 PostDate = DateTime.Now,
-                UserId = user.Id
+                UserId = user.Id,
+                ImagemBinaria = imagemBytes
             };
 
-            Posts createdPost = postDto.Imagem != null 
-                ? await _postsService.CreatePostWithImagemOrImageAsync(post)
-                : await _postsService.CreatePosts(post);
+            var createdPost = await _postsService.CreatePosts(post);
 
             return Ok(new
             {
                 Conteudo = createdPost.Description,
-                Imagem = createdPost.ImagemBinaria
+                Imagem = createdPost.ImagemBinaria != null && contentType != null
+                    ? $"data:{contentType};base64,{Convert.ToBase64String(createdPost.ImagemBinaria)}"
+                    : null
             });
         }
 
