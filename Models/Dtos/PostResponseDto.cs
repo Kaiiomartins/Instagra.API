@@ -9,9 +9,9 @@ namespace Instagram.API.Models.Dtos
        
 
         public int id { get; set; }
-        public string Conteudo { get; set; } = string.Empty;
-        public DateTime DataPublicacao { get; set; }
-        public byte? ImageBinaria { get; internal set; }
+        public string Description { get; set; } = string.Empty;
+        public DateTime DatePublic { get; set; }
+        public byte[]? ImageBytes { get; internal set; }
 
     }
 

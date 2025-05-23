@@ -1,10 +1,9 @@
 ﻿using Instagram.API.Models;
 using Instagram.API.Models.Dtos;
-using Instagram.API.Repositorio;
 
 namespace Instagram.API.Services
 {
-    public interface IPostService : IPostRepository
+    public interface IPostService 
     {
         Task<Posts> CreatePosts(Posts posts);
 
@@ -18,7 +17,9 @@ namespace Instagram.API.Services
 
         Task<string?> GetImagePathOrDescription(int postId);
 
-        Task<object?> GetPostComImagemBase64(int id);
+        Task<object?> Getpostwithimage(int id);
+
+        Task<List<Posts>> GetPostsAll(String Usernamne, DateTime? DateStart, DateTime? DateEnd);
 
     }
 }

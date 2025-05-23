@@ -26,7 +26,7 @@ namespace Instagram.API.Models
         public string Email { get; set;  }
 
         [Required]
-        public DateTime DataNascimento { get; set; }
+        public DateTime DateNascimento { get; set; }
 
         public DateTime? CreatedAt { get; set; }
 
@@ -42,7 +42,7 @@ namespace Instagram.API.Models
                 UserName = userDto.UserName,
                 Password = userDto.Password,
                 Email = userDto.Email,
-                DataNascimento = userDto.DataNascimento,
+                DateNascimento = userDto.DataNascimento,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = null
             };

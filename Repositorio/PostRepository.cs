@@ -1,7 +1,12 @@
 ﻿using Instagram.API.Data;
 using Instagram.API.Models;
 using Instagram.API.Models.Dtos;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Immutable;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Instagram.API.Repositorio
 {
@@ -29,7 +34,7 @@ namespace Instagram.API.Repositorio
             string? imagemBase64 = null;
             string? contentType = null;
 
-            if (post.ImageBinario != null && post.ImageBinario.Length > 0)
+            if (post.ImageBytes != null && post.ImageBytes.Length > 0)
             {
                 
                 if (System.IO.File.Exists(imagemBase64))
@@ -51,12 +56,11 @@ namespace Instagram.API.Repositorio
 
             return new PostResponseDto
             {
-                Conteudo = post.Description ?? string.Empty,
-                DataPublicacao = post.PostDate,
-                ImageBinaria = Convert.ToBase64String(post.ImageBinario)
+                Description = post.Description ?? string.Empty,
+                DatePublic = post.PostDate,
+                ImageBytes = post.ImageBytes
             };
         }
-
         public async Task<Posts?> UpdatePostAsync(Posts posts)
         {
             var post = await _context.Posts.FindAsync(posts.Id);
@@ -95,14 +99,34 @@ namespace Instagram.API.Repositorio
                     .FirstOrDefaultAsync(p => p.Id == posts.Id);
             
         }
-
         public async Task<string?> GetImagePathOrDescription(int postId)
         {
             var post = await _context.Posts.FindAsync(postId);
-            if (post == null || post.ImageBinario == null || post.ImageBinario.Length == 0)
+            if (post == null || post.ImageBytes == null || post.ImageBytes.Length == 0)
                 return null;
 
-            return Convert.ToBase64String(post.ImageBinario);
+            return Convert.ToBase64String(post.ImageBytes);
+        }
+
+        public async Task<List<Posts>> GetAllPosts(String UserName, DateTime ?DateStart, DateTime ? DateEnd) {
+
+            var usuario = _context.Users.FirstOrDefaultAsync(u => u.UserName == UserName);
+
+            if (usuario != null)
+                return new List<Posts>();
+
+            var query = _context.Posts.AsQueryable();
+
+            query = query.Where(p => p.UserId == usuario.Id);
+
+            if (UserName != null && DateStart.HasValue) ;
+            query = query.Where(p => p.PostDate >= DateStart.Value);
+
+            if (UserName != null && DateEnd.HasValue) ;
+            query = query.Where(p => p.PostDate <= DateEnd.Value);
+
+
+            return await query.ToListAsync();
         }
     }
 }

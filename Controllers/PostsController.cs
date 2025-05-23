@@ -2,6 +2,7 @@
 using Instagram.API.Models.Dtos;
 using Instagram.API.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
 
 namespace Instagram.API.Controllers
 {
@@ -11,7 +12,6 @@ namespace Instagram.API.Controllers
     {
         private readonly IPostService _postsService;
         private readonly IUserService _userService;
-        private byte[] imagemBytes;
 
         public PostsController(IPostService postsService, IUserService userService)
         {
@@ -40,32 +40,33 @@ namespace Instagram.API.Controllers
 
             var post = new Posts
             {
-                Description = postDto.Conteudo,
+                Description = postDto.Description,
                 PostDate = DateTime.Now,
                 UserId = user.Id,
-                ImageBinario = imagemBytes
+                ImageBytes = imagemBytes
             };
 
             var createdPost = await _postsService.CreatePosts(post);
 
             return Ok(new
             {
-                Conteudo = createdPost.Description,
-                Imagem = createdPost.ImageBinario != null && contentType != null
-                    ? $"data:{contentType};base64,{Convert.ToBase64String(createdPost.ImageBinario)}"
-                    : null
+                Description = createdPost.Description,
+                Imagem = createdPost.ImageBytes != null && contentType != null
+                    ? $"data:{contentType};base64,{Convert.ToBase64String(createdPost.ImageBytes)}"
+                    : null,
+                UserID = user.UserName
             });
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPostComImagem(int id)
         {
-            var resultado = await _postsService.GetPostComImagemBase64(id);
+            var result = await _postsService.Getpostwithimage(id);
 
-            if (resultado == null)
+            if (result == null)
                 return NotFound();
 
-            return Ok(resultado);
+            return Ok(result);
 
         }
 
@@ -73,6 +74,8 @@ namespace Instagram.API.Controllers
         public async Task<IActionResult> UpdatePost([FromForm] PostRequestDto post)
         {
             byte[] imagemBytes;
+
+            var User = _userService.GetUserByUsernameOrEmail(post.UserName);
 
             using (var memoryStream = new MemoryStream())
             {
@@ -82,11 +85,11 @@ namespace Instagram.API.Controllers
 
             var infoPost = new Posts
             {
-                Description = post.Conteudo,
-                ImageBinario = imagemBytes,
+                Description = post.Description,
+                ImageBytes = imagemBytes,
                 PostDate = DateTime.Now,
-                UserId = post.userId,
-                Id = post.Id,
+                UserId = User.Id,
+                Id = User.Id,
             };
 
             var updated = await _postsService.UpdatePostAsync(infoPost);
@@ -105,6 +108,23 @@ namespace Instagram.API.Controllers
 
             await _postsService.DeletesPostAsync(deleted.id);
             return NoContent();
+        }
+
+        [HttpGet("All")]
+        public async Task<ActionResult<List<PostResposeAllPosts>>> GetAll([FromBody] PostResposeAllPosts postsInfo)
+        {
+            var user = await _userService.GetUserByUsernameOrEmail(postsInfo.UserName);
+            var posts = await _postsService.GetPostsAll(postsInfo.UserName, postsInfo.DateStart, postsInfo.DateEnd);
+
+            var response = posts.Select(post => new PostResposeAllPosts
+            {
+                UserName = user.UserName,
+                Description = post.Description,
+                DateStart = post.PostDate,
+                DateEnd = post.PostDate
+            }).ToList();
+
+            return Ok(response);
         }
     }
 }

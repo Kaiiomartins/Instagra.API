@@ -29,7 +29,7 @@ namespace Instagram.API.Services
                 Id = user.Id,
                 UserName = user.UserName,
                 Email = user.Email,
-                DataNascimento = user.DataNascimento,
+                BirthData = user.DateNascimento,
                 Cpf = user.Cpf
             };
         }
@@ -49,7 +49,7 @@ namespace Instagram.API.Services
             userExistente.Cpf = userDto.Cpf;
             userExistente.UserName = userDto.UserName;
             userExistente.Email = userDto.Email;
-            userExistente.DataNascimento = userDto.DataNascimento;
+            userExistente.DateNascimento = userDto.DataNascimento;
             userExistente.UpdatedAt = DateTime.Now;
 
             await _userRepository.UpdateUser(userExistente);

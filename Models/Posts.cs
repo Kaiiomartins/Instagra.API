@@ -11,7 +11,7 @@ namespace Instagram.API.Models
 
         public string? Description { get; set; }
 
-        public byte[]? ImageBinario { get; set; }
+        public byte[]? ImageBytes { get; set; }
 
         public string? PostType { get; set; }
 

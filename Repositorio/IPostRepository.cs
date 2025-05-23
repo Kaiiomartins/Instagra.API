@@ -18,5 +18,7 @@ namespace Instagram.API.Repositorio
 
         Task<string?> GetImagePathOrDescription(int postId);
 
+        Task<List<Posts>> GetAllPosts(String Usernamne, DateTime? DateStart, DateTime? DateEnd);
+
     }
 }
