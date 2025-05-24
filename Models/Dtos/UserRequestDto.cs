@@ -22,6 +22,6 @@ namespace Instagram.API.Models.Dtos
         public string Email { get; set; }
 
         [Required]
-        public DateTime DataNascimento { get; set; }
+        public DateTime BirthDate { get; set; }
     }
 }
