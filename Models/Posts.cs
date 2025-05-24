@@ -13,7 +13,7 @@ namespace Instagram.API.Models
 
         public byte[]? ImageBytes { get; set; }
 
-        public string? PostType { get; set; }
+        public string PostType { get; set; }
 
         public DateTime PostDate { get; set; }
 

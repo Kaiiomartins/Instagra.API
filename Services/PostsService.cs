@@ -57,6 +57,7 @@ namespace Instagram.API.Services
                 Description = postDto.Description,
                 PostDate = DateTime.Now,
                 UserId = user.Id,
+                PostType = postDto.PostType,
                 ImageBytes = imagemBytes
             };
 
