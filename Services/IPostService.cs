@@ -5,7 +5,7 @@ namespace Instagram.API.Services
 {
     public interface IPostService 
     {
-        Task<Posts> CreatePosts(Posts posts);
+        Task<Posts> CreatePosts(PostRequestDto postD);
 
         Task<PostResponseDto?> GetPostById(int id);
 

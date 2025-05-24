@@ -18,44 +18,12 @@ namespace Instagram.API.Controllers
             _postsService = postsService;
             _userService = userService;
         }
+
         [HttpPost]
         public async Task<IActionResult> CreatePost([FromForm] PostRequestDto postDto)
         {
-            var user = await _userService.GetUserByUsernameOrEmail(postDto.UserName);
-            if (user == null)
-                return NotFound("Usuário não encontrado!");
-
-            byte[]? imagemBytes = null;
-            string? contentType = null;
-
-            if (postDto.Image != null && postDto.Image.Length > 0)
-            {
-                using (var memoryStream = new MemoryStream())
-                {
-                    await postDto.Image.CopyToAsync(memoryStream);
-                    imagemBytes = memoryStream.ToArray();
-                    contentType = postDto.Image.ContentType;
-                }
-            }
-
-            var post = new Posts
-            {
-                Description = postDto.Description,
-                PostDate = DateTime.Now,
-                UserId = user.Id,
-                ImageBytes = imagemBytes
-            };
-
-            var createdPost = await _postsService.CreatePosts(post);
-
-            return Ok(new
-            {
-                Description = createdPost.Description,
-                Imagem = createdPost.ImageBytes != null && contentType != null
-                    ? $"data:{contentType};base64,{Convert.ToBase64String(createdPost.ImageBytes)}"
-                    : null,
-                UserID = user.UserName
-            });
+            var createdPost = await _postsService.CreatePosts(postDto);
+            return Ok(createdPost);
         }
 
         [HttpGet("{id}")]
@@ -106,7 +74,7 @@ namespace Instagram.API.Controllers
             if (deleted == null)
                 return NotFound();
 
-            await _postsService.DeletesPostAsync(deleted.id);
+            await _postsService.DeletesPostAsync(deleted.Id);
             return NoContent();
         }
 

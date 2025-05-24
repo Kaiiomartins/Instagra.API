@@ -11,7 +11,6 @@ namespace Instagram.API.Repositorio
 
         Task<Posts> UpdatePostAsync(Posts posts);
 
-
         Task<Posts> DeletesPostAsync(int id);
 
         Task<string?> GetImagePathOrDescription(int postId);
