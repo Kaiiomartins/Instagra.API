@@ -1,6 +1,5 @@
 ﻿using Instagram.API.Data;
 using Instagram.API.Models;
-using Instagram.API.Models.Dtos;
 using Microsoft.EntityFrameworkCore;
 
 namespace Instagram.API.Repositorio
@@ -21,41 +20,12 @@ namespace Instagram.API.Repositorio
             return posts;
         }
 
-        public async Task<PostResponseDto?> GetPostById(int id)
+        public async Task<Posts?> GetPostById(int id)
         {
-            var post = await _context.Posts.FindAsync(id);
-            if (post == null) return null;
-
-            string? imagemBase64 = null;
-            string? contentType = null;
-
-            if (post.ImageBytes != null && post.ImageBytes.Length > 0)
-            {
-                
-                if (System.IO.File.Exists(imagemBase64))
-                {
-                    var extensao = Path.GetExtension(imagemBase64.ToLowerInvariant());
-                    contentType = extensao switch
-                    {
-                        ".jpg" or ".jpeg" => "image/jpeg",
-                        ".png" => "image/png",
-                        ".gif" => "image/gif",
-                        ".webp" => "image/webp",
-                        _ => "application/octet-stream"
-                    };
-
-                    var bytes = await System.IO.File.ReadAllBytesAsync(imagemBase64);
-                    imagemBase64 = Convert.ToBase64String(bytes);
-                }
-            }
-
-            return new PostResponseDto
-            {
-                Description = post.Description ?? string.Empty,
-                DatePublic = post.PostDate,
-                ImageBytes = post.ImageBytes
-            };
+            var post = await _context.Posts.FirstOrDefaultAsync(x => x.Id == id);
+            return post;
         }
+
         public async Task<Posts?> UpdatePostAsync(Posts posts)
         {
             var post = await _context.Posts.FindAsync(posts.Id);
@@ -82,15 +52,6 @@ namespace Instagram.API.Repositorio
             return post;
         }
 
-        public async Task<string?> GetImagePathOrDescription(int postId)
-        {
-            var post = await _context.Posts.FindAsync(postId);
-            if (post == null || post.ImageBytes == null || post.ImageBytes.Length == 0)
-                return null;
-
-            return Convert.ToBase64String(post.ImageBytes);
-        }
-
         public async Task<List<Posts>> GetAllPosts(string userName, DateTime? dateStart, DateTime? dateEnd)
         {
             var usuario = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
@@ -110,5 +71,6 @@ namespace Instagram.API.Repositorio
 
             return await query.ToListAsync();
         }
+
     }
 }

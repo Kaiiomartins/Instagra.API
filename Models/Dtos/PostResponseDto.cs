@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public string Description { get; set; }
-        public DateTime DatePublic { get; set; }
-        public byte[]? ImageBytes { get; internal set; }
+        public DateTime CreatedAt { get; set; }
+        public string ImageBase64 { get; internal set; }
     }
 }

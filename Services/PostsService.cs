@@ -18,12 +18,27 @@ namespace Instagram.API.Services
             _userService = userService;
         }
 
+        public async Task<PostResponseDto?> GetPostById(int id)
+        {
+            var post = await _postRepository.GetPostById(id);
+            if (post == null)
+                return null;
+
+            return new PostResponseDto
+            {
+                Id = post.Id,
+                Description = post.Description,
+                CreatedAt = post.PostDate,
+                ImageBase64 = post.ImageBytes != null ? Convert.ToBase64String(post.ImageBytes) : null
+            };
+        }
+
         public async Task<Posts> CreatePosts(PostRequestDto postDto)
         {
             var user = await _userService.GetUserByUsernameOrEmail(postDto.UserName);
             if (user == null)
                 throw new Exception("Usuário não encontrado ou não existe!");
-            
+
             byte[]? imagemBytes = null;
             string? contentType = null;
 
@@ -48,22 +63,6 @@ namespace Instagram.API.Services
             return await _postRepository.CreatePosts(post);
         }
 
-        public async Task<PostResponseDto?> GetPostById(int id)
-        {
-            var post = await _postRepository.GetPostById(id);
-            if (post == null)
-                return null;
-
-            return new PostResponseDto
-            {
-
-                Id = post.Id,
-                Description = post.Description,
-                DatePublic = post.DatePublic,
-                ImageBytes = post.ImageBytes
-            };
-        }
-
         public async Task<Posts?> UpdatePostAsync(Posts posts)
         {
             return await _postRepository.UpdatePostAsync(posts);
@@ -74,43 +73,6 @@ namespace Instagram.API.Services
             return await _postRepository.DeletesPostAsync(id);
         }
 
-        public async Task<string?> GetImagePathOrDescription(int postId)
-        {
-            return await _postRepository.GetImagePathOrDescription(postId);
-        }
-        public async Task<object?> Getpostwithimage(int id)
-        {
-            var post = await GetPostById(id);
-            if (post == null)
-                return null;
-
-            var relativePath = await GetImagePathOrDescription(id);
-            string? imagemBase64 = null;
-
-            if (!string.IsNullOrWhiteSpace(relativePath))
-            {
-
-                if (File.Exists(relativePath))
-                {
-                    var imageBytes = await File.ReadAllBytesAsync(relativePath);
-
-                    var contentType = Path.GetExtension(relativePath).ToLower() switch
-                    {
-                        ".jpg" or ".jpeg" => "image/jpeg",
-                        ".png" => "image/png",
-                        ".gif" => "image/gif",
-                        _ => "application/octet-stream"
-                    };
-
-                    imagemBase64 = $"data:{contentType};base64,{Convert.ToBase64String(imageBytes)}";
-                }
-            }
-            return post = new PostResponseDto
-            {
-                Description = post.Description,
-                ImageBytes = post.ImageBytes,
-            };
-        }
         public async Task<List<Posts>> GetPostsAll(string Usernamne, DateTime? DateStart, DateTime? DateEnd)
         {
             var posts = await _postRepository.GetAllPosts(Usernamne, DateStart, DateEnd);

@@ -2,7 +2,6 @@
 using Instagram.API.Models.Dtos;
 using Instagram.API.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq.Expressions;
 
 namespace Instagram.API.Controllers
 {
@@ -19,23 +18,47 @@ namespace Instagram.API.Controllers
             _userService = userService;
         }
 
+        [HttpGet("All")]
+        public async Task<ActionResult<List<PostResposeAllPosts>>> GetAll([FromForm] PostRequestAllpost postsInfo)
+        {
+            if (!string.IsNullOrEmpty(postsInfo.DateStartFormatted))
+                postsInfo.DateStart = DateTime.Parse(postsInfo.DateStartFormatted);
+            if (!string.IsNullOrEmpty(postsInfo.DateEndFormatted))
+                postsInfo.DateEnd = DateTime.Parse(postsInfo.DateEndFormatted);
+
+            var user = await _userService.GetUserByUsernameOrEmail(postsInfo.UserName);
+            if (user == null)
+                return NotFound("Usuário não encontrado!");
+
+            var posts = await _postsService.GetPostsAll(postsInfo.UserName, postsInfo.DateStart, postsInfo.DateEnd);
+
+            var response = posts.Select(post => new PostResposeAllPosts
+            {
+                UserName = user.UserName,
+                Description = post.Description,
+                DateStart = post.PostDate,
+                DateEnd = post.PostDate,
+                Image = post.ImageBytes,
+            }).ToList();
+
+            return Ok(response);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPost(int id)
+        {
+            var result = await _postsService.GetPostById(id);
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreatePost([FromForm] PostRequestDto postDto)
         {
             var createdPost = await _postsService.CreatePosts(postDto);
             return Ok(createdPost);
-        }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetPostComImagem(int id)
-        {
-            var result = await _postsService.Getpostwithimage(id);
-
-            if (result == null)
-                return NotFound();
-
-            return Ok(result);
-
         }
 
         [HttpPut]
@@ -76,32 +99,6 @@ namespace Instagram.API.Controllers
 
             await _postsService.DeletesPostAsync(deleted.Id);
             return NoContent();
-        }
-
-        [HttpGet("All")]
-        public async Task<ActionResult<List<PostResposeAllPosts>>> GetAll([FromForm] PostRequestAllpost postsInfo)
-        {
-            if (!string.IsNullOrEmpty(postsInfo.DateStartFormatted))
-                postsInfo.DateStart = DateTime.Parse(postsInfo.DateStartFormatted);
-            if (!string.IsNullOrEmpty(postsInfo.DateEndFormatted))
-                postsInfo.DateEnd = DateTime.Parse(postsInfo.DateEndFormatted);
-
-            var user = await _userService.GetUserByUsernameOrEmail(postsInfo.UserName);
-            if (user == null)
-                return NotFound("Usuário não encontrado!");
-
-            var posts = await _postsService.GetPostsAll(postsInfo.UserName, postsInfo.DateStart, postsInfo.DateEnd);
-
-            var response = posts.Select(post => new PostResposeAllPosts
-            {
-                UserName = user.UserName,
-                Description = post.Description,
-                DateStart = post.PostDate,
-                DateEnd = post.PostDate,
-                Image = post.ImageBytes,
-            }).ToList();
-
-            return Ok(response);
         }
     }
 }
