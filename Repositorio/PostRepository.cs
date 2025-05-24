@@ -64,10 +64,10 @@ namespace Instagram.API.Repositorio
             query = query.Where(p => p.UserId == usuario.Id);
 
             if (dateStart.HasValue)
-                query = query.Where(p => p.PostDate >= dateStart.Value);
+                query = query.Where(p => p.PostDate.Date >= dateStart.Value);
 
             if (dateEnd.HasValue)
-                query = query.Where(p => p.PostDate <= dateEnd.Value);
+                query = query.Where(p => p.PostDate.Date <= dateEnd.Value);
 
             return await query.ToListAsync();
         }
