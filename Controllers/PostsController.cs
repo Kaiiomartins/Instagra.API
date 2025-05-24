@@ -28,13 +28,13 @@ namespace Instagram.API.Controllers
             byte[]? imagemBytes = null;
             string? contentType = null;
 
-            if (postDto.Imagem != null && postDto.Imagem.Length > 0)
+            if (postDto.Image != null && postDto.Image.Length > 0)
             {
                 using (var memoryStream = new MemoryStream())
                 {
-                    await postDto.Imagem.CopyToAsync(memoryStream);
+                    await postDto.Image.CopyToAsync(memoryStream);
                     imagemBytes = memoryStream.ToArray();
-                    contentType = postDto.Imagem.ContentType;
+                    contentType = postDto.Image.ContentType;
                 }
             }
 
@@ -79,7 +79,7 @@ namespace Instagram.API.Controllers
 
             using (var memoryStream = new MemoryStream())
             {
-                await post.Imagem.CopyToAsync(memoryStream);
+                await post.Image.CopyToAsync(memoryStream);
                 imagemBytes = memoryStream.ToArray();
             }
 

@@ -82,18 +82,6 @@ namespace Instagram.API.Repositorio
             return post;
         }
 
-        public async Task<Posts> CreatePostWithImagemOrImageAsync(Posts posts)
-        {
-                posts.PostDate = DateTime.Now;
-
-                await _context.Posts.AddAsync(posts);
-                await _context.SaveChangesAsync();
-
-                return await _context.Posts
-                    .Include(u => u.User)
-                    .FirstOrDefaultAsync(p => p.Id == posts.Id);
-            
-        }
         public async Task<string?> GetImagePathOrDescription(int postId)
         {
             var post = await _context.Posts.FindAsync(postId);

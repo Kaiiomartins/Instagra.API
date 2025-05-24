@@ -14,8 +14,6 @@ namespace Instagram.API.Repositorio
 
         Task<Posts> DeletesPostAsync(int id);
 
-        Task<Posts> CreatePostWithImagemOrImageAsync(Posts posts);
-
         Task<string?> GetImagePathOrDescription(int postId);
 
         Task<List<Posts>> GetAllPosts(String Usernamne, DateTime? DateStart, DateTime? DateEnd);

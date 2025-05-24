@@ -11,12 +11,13 @@ namespace Instagram.API.Services
         public PostsService(IPostRepository postRepository)
         {
             _postRepository = postRepository;
-            
         }
+
         public async Task<Posts> CreatePosts(Posts posts)
         {
             return await _postRepository.CreatePosts(posts);
         }
+
         public async Task<PostResponseDto?> GetPostById(int id)
         {
             var post = await _postRepository.GetPostById(id);
@@ -43,12 +44,6 @@ namespace Instagram.API.Services
             return await _postRepository.DeletesPostAsync(id);
         }
 
-        public async Task<Posts> CreatePostWithImagemOrImageAsync(Posts posts)
-        {
-       
-                return await _postRepository.CreatePostWithImagemOrImageAsync(posts);
-            
-        }
         public async Task<string?> GetImagePathOrDescription(int postId)
         {
             return await _postRepository.GetImagePathOrDescription(postId);
