@@ -1,12 +1,7 @@
 ﻿using Instagram.API.Data;
 using Instagram.API.Models;
 using Instagram.API.Models.Dtos;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Immutable;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace Instagram.API.Repositorio
 {
@@ -108,23 +103,22 @@ namespace Instagram.API.Repositorio
             return Convert.ToBase64String(post.ImageBytes);
         }
 
-        public async Task<List<Posts>> GetAllPosts(String UserName, DateTime ?DateStart, DateTime ? DateEnd) {
+        public async Task<List<Posts>> GetAllPosts(string userName, DateTime? dateStart, DateTime? dateEnd)
+        {
+            var usuario = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
 
-            var usuario = _context.Users.FirstOrDefaultAsync(u => u.UserName == UserName);
-
-            if (usuario != null)
+            if (usuario == null)
                 return new List<Posts>();
 
             var query = _context.Posts.AsQueryable();
 
             query = query.Where(p => p.UserId == usuario.Id);
 
-            if (UserName != null && DateStart.HasValue) ;
-            query = query.Where(p => p.PostDate >= DateStart.Value);
+            if (dateStart.HasValue)
+                query = query.Where(p => p.PostDate >= dateStart.Value);
 
-            if (UserName != null && DateEnd.HasValue) ;
-            query = query.Where(p => p.PostDate <= DateEnd.Value);
-
+            if (dateEnd.HasValue)
+                query = query.Where(p => p.PostDate <= dateEnd.Value);
 
             return await query.ToListAsync();
         }

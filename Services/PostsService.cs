@@ -1,11 +1,10 @@
 ﻿using Instagram.API.Models;
 using Instagram.API.Models.Dtos;
 using Instagram.API.Repositorio;
-using Microsoft.Identity.Client;
 
 namespace Instagram.API.Services
 {
-    public class PostsService
+    public class PostsService: IPostService 
     {
         private readonly IPostRepository _postRepository;
         
@@ -81,16 +80,16 @@ namespace Instagram.API.Services
                     imagemBase64 = $"data:{contentType};base64,{Convert.ToBase64String(imageBytes)}";
                 }
             }
-            return post = new PostResponseDto{
-                Description = post.Description, 
-                ImageBytes = post.ImageBytes, 
+            return post = new PostResponseDto
+            {
+                Description = post.Description,
+                ImageBytes = post.ImageBytes,
             };
-            Task<List<Posts>> GetPostsAll(String Usernamne, DateTime? DateStart, DateTime? DateEnd) {
-
-                var posts = _postRepository.GetAllPosts(Usernamne, DateStart, DateEnd);
-
-                return posts;
-            }
+        }
+           public async Task<List<Posts>> GetPostsAll(string Usernamne, DateTime? DateStart, DateTime? DateEnd) {
+            var posts = await _postRepository.GetAllPosts(Usernamne, DateStart, DateEnd);
+            return posts;
         }
     }
 }
+
