@@ -12,20 +12,31 @@ namespace Instagram.API.Repositorio
         {
             _context = context;
         }
+        public async Task<List<Posts>> GetAllPosts(int userId, DateTime? dateStart, DateTime? dateEnd)
+        {
+            var query = _context.Posts.AsQueryable();
 
+            query = query.Where(p => p.UserId == userId);
+
+            if (dateStart.HasValue)
+                query = query.Where(p => p.Date.Date >= dateStart.Value);
+
+            if (dateEnd.HasValue)
+                query = query.Where(p => p.Date.Date <= dateEnd.Value);
+
+            return await query.ToListAsync();
+        }
+        public async Task<Posts?> GetPostById(int id)
+        {
+            var post = await _context.Posts.FirstOrDefaultAsync(x => x.Id == id);
+            return post;
+        }
         public async Task<Posts> CreatePosts(Posts posts)
         {
             await _context.Posts.AddAsync(posts);
             await _context.SaveChangesAsync();
             return posts;
         }
-
-        public async Task<Posts?> GetPostById(int id)
-        {
-            var post = await _context.Posts.FirstOrDefaultAsync(x => x.Id == id);
-            return post;
-        }
-
         public async Task<Posts?> UpdatePostAsync(Posts posts)
         {
             var post = await _context.Posts.FindAsync(posts.Id);
@@ -50,21 +61,6 @@ namespace Instagram.API.Repositorio
             await _context.SaveChangesAsync();
 
             return post;
-        }
-
-        public async Task<List<Posts>> GetAllPosts(int userId, DateTime? dateStart, DateTime? dateEnd)
-        {
-            var query = _context.Posts.AsQueryable();
-
-            query = query.Where(p => p.UserId == userId);
-
-            if (dateStart.HasValue)
-                query = query.Where(p => p.PostDate.Date >= dateStart.Value);
-
-            if (dateEnd.HasValue)
-                query = query.Where(p => p.PostDate.Date <= dateEnd.Value);
-
-            return await query.ToListAsync();
         }
 
     }
