@@ -1,5 +1,4 @@
 ﻿using Instagram.API.Models;
-using Instagram.API.Models.Dtos;
 
 namespace Instagram.API.Repositorio
 {
@@ -7,16 +6,12 @@ namespace Instagram.API.Repositorio
     {
         Task<Posts> CreatePosts(Posts posts);
 
-        Task<PostResponseDto> GetPostById(int id);
+        Task<Posts> GetPostById(int id);
 
         Task<Posts> UpdatePostAsync(Posts posts);
 
-
         Task<Posts> DeletesPostAsync(int id);
 
-        Task<Posts> CreatePostWithImagemOrImageAsync(Posts posts, IFormFile imagem);
-
-        Task<string?> GetImagePathOrDescription(int postId);
-
+        Task<List<Posts>> GetAllPosts(int userId, DateTime? dateStart, DateTime? dateEnd);
     }
 }

@@ -11,16 +11,14 @@ namespace Instagram.API.Models
 
         public string? Description { get; set; }
 
-        public string? ImagemUrl { get; set; }
+        public byte[]? ImageBytes { get; set; }
 
-        public string? PostType { get; set; }
+        public string PostType { get; set; }
 
         public DateTime PostDate { get; set; }
 
-        
         [ForeignKey("User")]
         public int UserId { get; set; }
-
         public virtual User User { get; set; }
     }
 }

@@ -9,7 +9,6 @@ namespace Instagram.API.Controllers
     [Route("post")]
     public class PostsController : ControllerBase
     {
-
         private readonly IPostService _postsService;
         private readonly IUserService _userService;
 
@@ -19,77 +18,59 @@ namespace Instagram.API.Controllers
             _userService = userService;
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetPostById(int id)
+        [HttpPost("All")]
+        public async Task<ActionResult<IEnumerable<PostResposeAllPosts>>> GetAll([FromBody] PostRequestAllpost postsInfo)
         {
-            var post = await _postsService.GetPostById(id);
-            if (post == null)
+            if (!string.IsNullOrEmpty(postsInfo.DateStartFormatted))
+                postsInfo.DateStart = DateTime.Parse(postsInfo.DateStartFormatted);
+            if (!string.IsNullOrEmpty(postsInfo.DateEndFormatted))
+                postsInfo.DateEnd = DateTime.Parse(postsInfo.DateEndFormatted);
+
+            var response = await _postsService.GetPostsAll(postsInfo.UserName, postsInfo.DateStart, postsInfo.DateEnd);
+
+            return Ok(response);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPost(int id)
+        {
+            var result = await _postsService.GetPostById(id);
+            if (result == null)
                 return NotFound();
 
-            return Ok(post);
+            return Ok(result);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreatePost([FromForm] PostRequestDto postDto)
         {
-            var user = await _userService.GetUserByUsernameOrEmail(postDto.UserName);
-            if (user == null)
-                return NotFound("Usuário não encontrado!");
-
-            var post = new Posts
-            {
-                Description = postDto.Conteudo,
-                PostDate = DateTime.Now,
-                UserId = user.Id
-            };
-
-            Posts createdPost = postDto.Imagem != null 
-                ? await _postsService.CreatePostWithImagemOrImageAsync(post, postDto.Imagem)
-                : await _postsService.CreatePosts(post);
-
-            return Ok(new
-            {
-                Conteudo = createdPost.Description,
-                Imagem = createdPost.ImagemUrl
-            });
-        }
-
-        [HttpGet("imagem/{postId}")]
-        public async Task<IActionResult> VisualizarImagem(int postId)
-        {
-            var relativePath = await _postsService.GetImagePathOrDescription(postId);
-            if (string.IsNullOrWhiteSpace(relativePath))
-                return NotFound();
-
-            var fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", relativePath.TrimStart('/'));
-
-            if (!System.IO.File.Exists(fullPath))
-                return NotFound();
-
-            var contentType = Path.GetExtension(fullPath).ToLower() switch
-            {
-                ".jpg" or ".jpeg" => "image/jpeg",
-                ".png" => "image/png",
-                ".gif" => "image/gif",
-                _ => "application/octet-stream"
-            };
-
-            var imageBytes = await System.IO.File.ReadAllBytesAsync(fullPath);
-            return File(imageBytes, contentType);
+            var createdPost = await _postsService.CreatePosts(postDto);
+            return Ok(createdPost);
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdatePost([FromBody] PostRequestDto post)
+        public async Task<IActionResult> UpdatePost([FromForm] PostRequestDto post)
         {
-            var InfoPost = new Posts
+            byte[] imagemBytes;
+
+            var User = _userService.GetUserByUsernameOrEmail(post.UserName);
+
+            using (var memoryStream = new MemoryStream())
             {
-                Description = post.Conteudo,
-                ImagemUrl = post.ImagemBase64,
+                await post.Image.CopyToAsync(memoryStream);
+                imagemBytes = memoryStream.ToArray();
+            }
+
+            var infoPost = new Posts
+            {
+                Description = post.Description,
+                ImageBytes = imagemBytes,
                 PostDate = DateTime.Now,
-                UserId = post.userId
+                UserId = User.Id,
+                Id = User.Id,
             };
-            
-            var updated = await _postsService.UpdatePostAsync(InfoPost);
+
+            var updated = await _postsService.UpdatePostAsync(infoPost);
             if (updated == null)
                 return NotFound();
 
@@ -103,7 +84,7 @@ namespace Instagram.API.Controllers
             if (deleted == null)
                 return NotFound();
 
-            await _postsService.DeletesPostAsync(deleted.id);
+            await _postsService.DeletesPostAsync(deleted.Id);
             return NoContent();
         }
     }

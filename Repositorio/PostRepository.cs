@@ -1,6 +1,5 @@
 ﻿using Instagram.API.Data;
 using Instagram.API.Models;
-using Instagram.API.Models.Dtos;
 using Microsoft.EntityFrameworkCore;
 
 namespace Instagram.API.Repositorio
@@ -21,40 +20,10 @@ namespace Instagram.API.Repositorio
             return posts;
         }
 
-        public async Task<PostResponseDto?> GetPostById(int id)
+        public async Task<Posts?> GetPostById(int id)
         {
-            var post = await _context.Posts.FindAsync(id);
-            if (post == null) return null;
-
-            string? imagemBase64 = null;
-            string? contentType = null;
-
-            if (!string.IsNullOrEmpty(post.ImagemUrl))
-            {
-                var caminhoFisico = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", post.ImagemUrl.TrimStart('/'));
-                if (System.IO.File.Exists(caminhoFisico))
-                {
-                    var extensao = Path.GetExtension(caminhoFisico).ToLowerInvariant();
-                    contentType = extensao switch
-                    {
-                        ".jpg" or ".jpeg" => "image/jpeg",
-                        ".png" => "image/png",
-                        ".gif" => "image/gif",
-                        ".webp" => "image/webp",
-                        _ => "application/octet-stream"
-                    };
-
-                    var bytes = await System.IO.File.ReadAllBytesAsync(caminhoFisico);
-                    imagemBase64 = Convert.ToBase64String(bytes);
-                }
-            }
-
-            return new PostResponseDto
-            {
-                Conteudo = post.Description ?? string.Empty,
-                DataPublicacao = post.PostDate,
-                ImagemUrl = post.ImagemUrl
-            };
+            var post = await _context.Posts.FirstOrDefaultAsync(x => x.Id == id);
+            return post;
         }
 
         public async Task<Posts?> UpdatePostAsync(Posts posts)
@@ -83,46 +52,20 @@ namespace Instagram.API.Repositorio
             return post;
         }
 
-        public async Task<Posts> CreatePostWithImagemOrImageAsync(Posts posts, IFormFile? imagem)
+        public async Task<List<Posts>> GetAllPosts(int userId, DateTime? dateStart, DateTime? dateEnd)
         {
-            if (imagem != null && imagem.Length > 0)
-            {
-                var nomeArquivo = $"{Guid.NewGuid()}{Path.GetExtension(imagem.FileName)}";
-                var caminho = Path.Combine("wwwroot/imagens", nomeArquivo);
+            var query = _context.Posts.AsQueryable();
 
-                Directory.CreateDirectory(Path.GetDirectoryName(caminho)!);
+            query = query.Where(p => p.UserId == userId);
 
-                using (var stream = new FileStream(caminho, FileMode.Create))
-                {
-                    await imagem.CopyToAsync(stream);
-                }
+            if (dateStart.HasValue)
+                query = query.Where(p => p.PostDate.Date >= dateStart.Value);
 
-                posts.ImagemUrl = $"/imagens/{nomeArquivo}";
-            }
+            if (dateEnd.HasValue)
+                query = query.Where(p => p.PostDate.Date <= dateEnd.Value);
 
-            posts.PostDate = DateTime.Now;
-
-            await _context.Posts.AddAsync(posts);
-            await _context.SaveChangesAsync();
-
-            return await _context.Posts
-                .Include(u => u.User)
-                .FirstOrDefaultAsync(p => p.Id == posts.Id);
+            return await query.ToListAsync();
         }
 
-        public async Task<string?> GetImagePathOrDescription(int postId)
-        {
-            var post = await _context.Posts.FindAsync(postId);
-
-            if (post == null || string.IsNullOrEmpty(post.ImagemUrl))
-                return null;
-
-            var caminhoFisico = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", post.ImagemUrl.TrimStart('/'));
-
-            if (!File.Exists(caminhoFisico))
-                return null;
-
-            return post.ImagemUrl;
-        }
     }
 }
