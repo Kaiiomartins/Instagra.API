@@ -31,7 +31,7 @@ namespace Instagram.API.Services
                 UserName = post.User.UserName,
                 Description = post.Description,
                 CreatedAt = post.PostDate,
-                Image = post.ImageBytes,
+                ImageBase64 = post.ImageBytes != null ? Convert.ToBase64String(post.ImageBytes) : null
             });
 
             return response;
