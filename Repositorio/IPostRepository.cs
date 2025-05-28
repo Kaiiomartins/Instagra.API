@@ -12,6 +12,6 @@ namespace Instagram.API.Repositorio
 
         Task<Posts> DeletesPostAsync(int id);
 
-        Task<List<Posts>> GetAllPosts(String Usernamne, DateTime? DateStart, DateTime? DateEnd);
+        Task<List<Posts>> GetAllPosts(int userId, DateTime? dateStart, DateTime? dateEnd);
     }
 }

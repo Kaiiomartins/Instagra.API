@@ -18,6 +18,25 @@ namespace Instagram.API.Services
             _userService = userService;
         }
 
+        public async Task<IEnumerable<PostResposeAllPosts>> GetPostsAll(string username, DateTime? dateStart, DateTime? dateEnd)
+        {
+            var user = await _userService.GetUserByUsernameOrEmail(username);
+            if (user is null)
+                throw new BadHttpRequestException("Username não existe ou não encontrado");
+
+            var posts = await _postRepository.GetAllPosts(user.Id, dateStart, dateEnd);
+
+            var response = posts.Select(post => new PostResposeAllPosts
+            {
+                UserName = post.User.UserName,
+                Description = post.Description,
+                CreatedAt = post.PostDate,
+                Image = post.ImageBytes,
+            });
+
+            return response;
+        }
+
         public async Task<PostResponseDto?> GetPostById(int id)
         {
             var post = await _postRepository.GetPostById(id);
@@ -39,7 +58,7 @@ namespace Instagram.API.Services
             if (user == null)
                 throw new Exception("Usuário não encontrado ou não existe!");
 
-            byte[]? imagemBytes = null;
+            byte[]? imageBytes = null;
             string? contentType = null;
 
             if (postDto.Image != null && postDto.Image.Length > 0)
@@ -47,7 +66,7 @@ namespace Instagram.API.Services
                 using (var memoryStream = new MemoryStream())
                 {
                     await postDto.Image.CopyToAsync(memoryStream);
-                    imagemBytes = memoryStream.ToArray();
+                    imageBytes = memoryStream.ToArray();
                     contentType = postDto.Image.ContentType;
                 }
             }
@@ -58,7 +77,7 @@ namespace Instagram.API.Services
                 PostDate = DateTime.Now,
                 UserId = user.Id,
                 PostType = postDto.PostType,
-                ImageBytes = imagemBytes
+                ImageBytes = imageBytes
             };
 
             return await _postRepository.CreatePosts(post);
@@ -72,12 +91,6 @@ namespace Instagram.API.Services
         public async Task<Posts?> DeletesPostAsync(int id)
         {
             return await _postRepository.DeletesPostAsync(id);
-        }
-
-        public async Task<List<Posts>> GetPostsAll(string Usernamne, DateTime? DateStart, DateTime? DateEnd)
-        {
-            var posts = await _postRepository.GetAllPosts(Usernamne, DateStart, DateEnd);
-            return posts;
         }
     }
 }

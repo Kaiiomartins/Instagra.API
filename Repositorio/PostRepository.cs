@@ -52,16 +52,11 @@ namespace Instagram.API.Repositorio
             return post;
         }
 
-        public async Task<List<Posts>> GetAllPosts(string userName, DateTime? dateStart, DateTime? dateEnd)
+        public async Task<List<Posts>> GetAllPosts(int userId, DateTime? dateStart, DateTime? dateEnd)
         {
-            var usuario = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
-
-            if (usuario == null)
-                return new List<Posts>();
-
             var query = _context.Posts.AsQueryable();
 
-            query = query.Where(p => p.UserId == usuario.Id);
+            query = query.Where(p => p.UserId == userId);
 
             if (dateStart.HasValue)
                 query = query.Where(p => p.PostDate.Date >= dateStart.Value);

@@ -4,7 +4,7 @@
 	[UserName] [nvarchar](255) NOT NULL,
 	[Password] [nvarchar](255) NOT NULL,
 	[Email] [nvarchar](255) NULL,
-	[DataNascimento] [datetime] NULL,
+	[BirthDate] [datetime] NULL,
 	[CreatedAt] [datetime] NULL,
 	[UpdatedAt] [datetime] NULL, 
     CONSTRAINT [PK_Users] PRIMARY KEY ([Id])

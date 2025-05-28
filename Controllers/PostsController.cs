@@ -18,28 +18,15 @@ namespace Instagram.API.Controllers
             _userService = userService;
         }
 
-        [HttpGet("All")]
-        public async Task<ActionResult<List<PostResposeAllPosts>>> GetAll([FromForm] PostRequestAllpost postsInfo)
+        [HttpPost("All")]
+        public async Task<ActionResult<IEnumerable<PostResposeAllPosts>>> GetAll([FromBody] PostRequestAllpost postsInfo)
         {
             if (!string.IsNullOrEmpty(postsInfo.DateStartFormatted))
                 postsInfo.DateStart = DateTime.Parse(postsInfo.DateStartFormatted);
             if (!string.IsNullOrEmpty(postsInfo.DateEndFormatted))
                 postsInfo.DateEnd = DateTime.Parse(postsInfo.DateEndFormatted);
 
-            var user = await _userService.GetUserByUsernameOrEmail(postsInfo.UserName);
-            if (user == null)
-                return NotFound("Usuário não encontrado!");
-
-            var posts = await _postsService.GetPostsAll(postsInfo.UserName, postsInfo.DateStart, postsInfo.DateEnd);
-
-            var response = posts.Select(post => new PostResposeAllPosts
-            {
-                UserName = user.UserName,
-                Description = post.Description,
-                DateStart = post.PostDate,
-                DateEnd = post.PostDate,
-                Image = post.ImageBytes,
-            }).ToList();
+            var response = await _postsService.GetPostsAll(postsInfo.UserName, postsInfo.DateStart, postsInfo.DateEnd);
 
             return Ok(response);
         }
