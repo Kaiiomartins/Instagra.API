@@ -18,7 +18,7 @@ namespace Instagram.API.Controllers
             _userService = userService;
         }
 
-        [HttpPost("All")]
+        [HttpGet("All")]
         public async Task<ActionResult<IEnumerable<PostResposeAllPosts>>> GetAll([FromBody] PostRequestAllpost postsInfo)
         {
             if (!string.IsNullOrEmpty(postsInfo.DateStartFormatted))
@@ -65,7 +65,7 @@ namespace Instagram.API.Controllers
             {
                 Description = post.Description,
                 ImageBytes = imagemBytes,
-                Date = DateTime.Now,
+                CreateAt = DateTime.Now,
                 UserId = User.Id,
                 Id = User.Id,
             };

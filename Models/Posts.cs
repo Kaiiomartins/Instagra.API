@@ -15,9 +15,11 @@ namespace Instagram.API.Models
 
         public string Type { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime CreateAt { get; set; }
 
         public Boolean IsDeleted { get; set; }
+        
+        public DateTime? IsDeletedAt { get; set; } 
 
         [ForeignKey("User")]
         public int UserId { get; set; }
