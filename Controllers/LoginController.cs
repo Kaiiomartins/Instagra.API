@@ -1,5 +1,4 @@
-﻿using Instagram.API.Models;
-using Instagram.API.Models.Dtos;
+﻿using Instagram.API.Models.Dtos;
 using Instagram.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
