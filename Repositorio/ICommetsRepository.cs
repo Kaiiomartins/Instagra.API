@@ -10,6 +10,6 @@ namespace Instagram.API.Repositorio
 
         public Task PutCommentsAsync(CommentsRequestDto commentsRequestDto);
 
-        public Task DeleteCommentsAsync(int id);
+        public Task DeleteCommentsAsync(int id, DateTime dateTime);
     }
 }

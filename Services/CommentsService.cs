@@ -19,7 +19,7 @@ public class CommentsService : ICommentsService
         {
             var commment = await _repository.GetpostsAsync(comment.id, comment.DateComment);
             if (commment == null)
-                throw new Exception("Comment not found"); 
+                throw new Exception("Comment not found");
 
             var comments = new CommentsResposeDto
             {
@@ -32,19 +32,40 @@ public class CommentsService : ICommentsService
             return comments;
         }
 
-        public Task<CommentsResposeDto> CreateCommentsAsync(CommentsRequestDto comment)
+        public async Task<CommentsResposeDto> CreateCommentsAsync(CommentsRequestDto comment)
         {
-            throw new NotImplementedException();
+            var comments = await _repository.GetpostsAsync(comment.id, comment.DateComment);
+            if (comments != null)
+                throw new Exception("Comment not found");
+
+            await _repository.CreaatePost(comment);
+
+            var newComment = new CommentsResposeDto
+            {
+                id = comment.id,
+                text = comment.TextComment,
+                DateComment = comment.DateComment,
+                DatewUpdate = DateTime.UtcNow
+            };
+            return newComment;
+        }
+        public async Task UpdateCommentsAsync(CommentsRequestDto comment)
+        {
+            var comments = await _repository.GetpostsAsync(comment.id, comment.DateComment);
+            if (comments != null)
+                throw new Exception("Comment not found");
+
+            await _repository.PutCommentsAsync(comment);
+        }
+        public async Task DeleteCommentsAsync(CommentsRequestDto ComentsDelete) 
+        {
+            var comments = await _repository.GetpostsAsync(ComentsDelete.id, ComentsDelete.DateComment); 
+            if (comments == null)
+                throw new Exception("Comment not found");
+
+            await _repository.DeleteCommentsAsync(ComentsDelete.id, ComentsDelete.DateComment); 
         }
 
-        public Task DeleteCommentsAsync(int Id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateCommentsAsync(CommentsRequestDto comment)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

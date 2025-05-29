@@ -53,7 +53,7 @@ namespace Instagram.API.Repositorio
             _context.Comments.Update(comment);
             await _context.SaveChangesAsync();
         }
-        public async Task DeleteCommentsAsync(int id)
+        public async Task DeleteCommentsAsync(int id, DateTime Date)
         {
             var comment = _context.Comments.FirstOrDefault(c => c.Id == id);
             if (comment == null)
