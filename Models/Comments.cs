@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.SqlClient.DataClassification;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Instagram.API.Models
 {
@@ -11,7 +10,7 @@ namespace Instagram.API.Models
 
         public DateTime DateComment { get; set; }
 
-        public DateTime DateUpdated { get; set; }
+        public DateTime DateUpdated { get; set; } = DateTime.Now;
 
         public bool IsDeleted { get; set; }
 
