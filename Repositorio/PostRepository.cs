@@ -18,6 +18,9 @@ namespace Instagram.API.Repositorio
 
             query = query.Where(p => p.UserId == userId);
 
+            if (query != null)
+                query = query.Where(p => p.UserId == userId);
+
             if (dateStart.HasValue)
                 query = query.Where(p => p.CreateAt.Date >= dateStart.Value && p.IsDeleted == false);
 
@@ -59,7 +62,6 @@ namespace Instagram.API.Repositorio
 
             post.IsDeleted = true;
             post.IsDeletedAt = DateTime.Now;
-            //_context.Posts.Remove(post);
             await _context.SaveChangesAsync();
 
             return post;
