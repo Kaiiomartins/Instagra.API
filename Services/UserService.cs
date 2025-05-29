@@ -36,6 +36,11 @@ namespace Instagram.API.Services
 
         public async Task CreateUser(UserRequestDto userDto)
         {
+            var existingUser = await _userRepository.GetUserByUsernameOrEmail(userDto.UserName, userDto.Email);
+            if (existingUser != null)
+                throw new InvalidOperationException("Usuário ou e-mail já cadastrado.");
+            
+
             var user = User.Create(userDto);
             await _userRepository.CreateUser(user);
         }
