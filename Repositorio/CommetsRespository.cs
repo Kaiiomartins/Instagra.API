@@ -22,23 +22,23 @@ namespace Instagram.API.Repositorio
 
             var response = new CommentsResposeDto
             {
-                id = comment.Id,
-                text = comment.Commets,
-                DateComment = comment.DateComment,
-                DatewUpdate = comment.DateUpdated
+                text = comment.Comment,
+                DateComment = (DateTime)comment.DateComment,
+                DatewUpdate = DateTime.Now
             };
 
             return response;
         }
-        public async Task CreaatePost(CommentsRequestDto commentsRequestDto)
+        public async Task CreateComments(Comments commentsRequestDto)
         {
             var comment = new Comments
             {
-                Commets = commentsRequestDto.TextComment,
-                DateComment = commentsRequestDto.DateComment,
+                Comment = commentsRequestDto.Comment,
+                DateComment = DateTime.Now,
                 DateUpdated = DateTime.Now,
                 IsDeleted = false,
-           
+                UserId= commentsRequestDto.UserId,
+                PostId = commentsRequestDto.PostId,
             };
 
             await _context.Comments.AddAsync(comment);
@@ -58,7 +58,7 @@ namespace Instagram.API.Repositorio
             var comment = _context.Comments.FirstOrDefault(c => c.Id == id);
             if (comment == null)
                 throw new KeyNotFoundException("Comment not found");
-     
+
             comment.IsDeleted = true;
             comment.DateUpdated = DateTime.Now;
             await _context.SaveChangesAsync();

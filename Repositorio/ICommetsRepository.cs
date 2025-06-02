@@ -1,4 +1,5 @@
-﻿using Instagram.API.Models.Dtos;
+﻿using Instagram.API.Models;
+using Instagram.API.Models.Dtos;
 namespace Instagram.API.Repositorio
 {
     public interface ICommetsRepository
@@ -6,7 +7,7 @@ namespace Instagram.API.Repositorio
 
         public Task <CommentsResposeDto> GetpostsAsync(int id, DateTime DateComment);
 
-        public Task CreaatePost(CommentsRequestDto commentsRequestDto);
+        public Task CreateComments(Comments comments);
 
         public Task PutCommentsAsync(CommentsRequestDto commentsRequestDto);
 

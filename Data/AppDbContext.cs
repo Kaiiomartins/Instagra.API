@@ -25,6 +25,7 @@ namespace Instagram.API.Data
                 .HasOne(p => p.User)
                 .WithMany()
                 .HasForeignKey(p => p.UserId);
+        
         }
     }
 }

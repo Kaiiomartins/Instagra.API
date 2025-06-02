@@ -1,6 +1,4 @@
-﻿using Instagram.API.Models;
-using Instagram.API.Models.Dtos;
-using Microsoft.Identity.Client;
+﻿using Instagram.API.Models.Dtos;
 namespace Instagram.API.Services
 {
     public interface ICommentsService
