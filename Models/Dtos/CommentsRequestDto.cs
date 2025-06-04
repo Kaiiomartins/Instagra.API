@@ -1,32 +1,21 @@
-﻿using Microsoft.VisualBasic;
+﻿using Microsoft.AspNetCore.Mvc.Formatters;
 using System.Globalization;
 using System.Text.Json.Serialization;
 
 namespace Instagram.API.Models.Dtos
 {
-    public class PostRequestAllpost
+    public class CommentsRequestDto
     {
-        public string UserName { get; set; }
-
-        [JsonPropertyName("DateStart")]
-        public string? DateStart
+        public int id { get; set; }
+        public string DateComment
         {
             get => _dateStart?.ToString("dd/MM/yyyy");
             set => _dateStart = ParseDateOnly(value);
         }
-
-        [JsonPropertyName("DateEnd")]
-        public string? DateEnd
-        {
-            get => _dateEnd?.ToString("dd/MM/yyyy");
-            set => _dateEnd = ParseDateOnly(value);
-        }
+        public string? TextComment { get; set; }
 
         [JsonIgnore]
         public DateTime? _dateStart { get; set; }
-
-        [JsonIgnore]
-        public DateTime? _dateEnd { get; set; }
 
         private DateTime? ParseDateOnly(string value)
         {
@@ -34,5 +23,8 @@ namespace Instagram.API.Models.Dtos
                 ? dt.Date
                 : null;
         }
+        public int Userid { get; set; }
+
+        public int PostId { get; set; }
     }
 }

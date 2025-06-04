@@ -13,6 +13,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddScoped<IPostService, PostsService>();
+builder.Services.AddScoped<ICommentsService, CommentsService>();
+builder.Services.AddScoped<CommetsRespository>();
 
 builder.Services.AddCors(options =>
 {
