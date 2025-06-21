@@ -9,7 +9,7 @@ namespace Instagram.API.Models
         [Key]
         public long Id { get; set; }  
 
-        [Required]
+       
         public string Comment { get; set; }
 
         public DateTime? DateComment { get; set; } = DateTime.Now;

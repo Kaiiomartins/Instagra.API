@@ -12,53 +12,29 @@ namespace Instagram.API.Repositorio
         {
             _context = context;
         }
-        public async Task<CommentsResposeDto> GetpostsAsync(int id, DateTime dateComment)
+        public async Task<Comments> GetpostsAsync(int id)
         {
             var comment = await _context.Comments
-                .FirstOrDefaultAsync(c => c.Id == id && c.DateComment == dateComment);
+                .FirstOrDefaultAsync(c => c.Id == id);
 
-            if (comment == null)
-                throw new KeyNotFoundException("Comment not found");
-
-            var response = new CommentsResposeDto
-            {
-                text = comment.Comment,
-                DateComment = (DateTime)comment.DateComment,
-                DatewUpdate = DateTime.Now
-            };
-
-            return response;
+            return comment;
         }
         public async Task CreateComments(Comments commentsRequestDto)
         {
-            var comment = new Comments
-            {
-                Comment = commentsRequestDto.Comment,
-                DateComment = DateTime.Now,
-                DateUpdated = DateTime.Now,
-                IsDeleted = false,
-                UserId= commentsRequestDto.UserId,
-                PostId = commentsRequestDto.PostId,
-            };
-
-            await _context.Comments.AddAsync(comment);
+            await _context.Comments.AddAsync(commentsRequestDto);
             await _context.SaveChangesAsync();
         }
-        public async Task PutCommentsAsync(CommentsRequestDto commentsRequestDto)
+        public async Task PutCommentsAsync(Comments commentsRequestDto)
         {
-            var comment = _context.Comments.FirstOrDefault(c => c.Id == commentsRequestDto.id);
-            if (comment == null)
-                throw new KeyNotFoundException("Comment not found");
-
+            var comment = _context.Comments.FirstOrDefault(c => c.Id == commentsRequestDto.Id);
+     
             _context.Comments.Update(comment);
             await _context.SaveChangesAsync();
         }
-        public async Task DeleteCommentsAsync(int id, DateTime Date)
+        public async Task DeleteCommentsAsync(int id)
         {
             var comment = _context.Comments.FirstOrDefault(c => c.Id == id);
-            if (comment == null)
-                throw new KeyNotFoundException("Comment not found");
-
+      
             comment.IsDeleted = true;
             comment.DateUpdated = DateTime.Now;
             await _context.SaveChangesAsync();

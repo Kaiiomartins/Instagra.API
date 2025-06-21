@@ -22,10 +22,10 @@ namespace Instagram.API.Repositorio
                 query = query.Where(p => p.UserId == userId);
 
             if (dateStart.HasValue)
-                query = query.Where(p => p.CreateAt.Date >= dateStart.Value && p.IsDeleted == false);
+                query = query.Where(p => p.CreatedAt.Date >= dateStart.Value && p.IsDeleted == false);
 
             if (dateEnd.HasValue)
-                query = query.Where(p => p.CreateAt.Date <= dateEnd.Value && p.IsDeleted == false);
+                query = query.Where(p => p.CreatedAt.Date <= dateEnd.Value && p.IsDeleted == false);
 
             return await query.ToListAsync();
         }

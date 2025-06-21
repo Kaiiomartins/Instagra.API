@@ -7,7 +7,7 @@ namespace Instagram.API.Services
 
         public Task<CommentsResposeDto> CreateCommentsAsync(CommentsRequestDto comment);
 
-        public Task DeleteCommentsAsync(CommentsRequestDto Data); 
+        public Task DeleteCommentsAsync(CommentsRequestDto comment); 
 
         public Task UpdateCommentsAsync(CommentsRequestDto comment);
     }

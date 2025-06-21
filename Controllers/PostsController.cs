@@ -61,7 +61,7 @@ namespace Instagram.API.Controllers
             {
                 Description = post.Description,
                 ImageBytes = imagemBytes,
-                CreateAt = DateTime.Now,
+                CreatedAt = DateTime.Now,
                 UserId = User.Id,
                 Id = User.Id,
             };

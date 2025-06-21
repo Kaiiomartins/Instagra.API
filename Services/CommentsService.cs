@@ -13,37 +13,30 @@ namespace Instagram.API.Services
             _repository = repository;
         }
 
-        public async Task<CommentsResposeDto> GetCommentsAsync(CommentsRequestDto comment)
+        public async Task<CommentsResposeDto> GetCommentsAsync(CommentsRequestDto comments)
         {
-            if (!DateTime.TryParse(comment.DateComment.ToString(), out var parsedDateComment))
-                throw new Exception("Invalid date format for DateComment");
-
-            var commment = await _repository.GetpostsAsync(comment.id, parsedDateComment);
-            if (commment == null)
-                throw new Exception("Comment not found");
-
-            var comments = new CommentsResposeDto
+            var commment = await _repository.GetpostsAsync((int)comments.id);
+            
+            var commentss = new CommentsResposeDto
             {
-                id = comment.id,
-                text = comment.TextComment, 
-                DateComment = parsedDateComment,
-                DatewUpdate = DateTime.UtcNow
+                id = (int)commment.Id,
+                text = comments.TextComment,
+                DateComment = commment.DateComment ?? DateTime.Now,
+                DateUpdate = DateTime.UtcNow,
+                Userid = commment.UserId,  
+                PostId = commment.PostId
             };
 
-            return comments;
+            return commentss;
         }
 
         public async Task<CommentsResposeDto> CreateCommentsAsync(CommentsRequestDto comment)
         {
-            if (!DateTime.TryParse(comment.DateComment.ToString(), out var parsedDateComment))
-                throw new Exception("Invalid date format for DateComment");
-
             var newComment = new Comments
             {
-                Id = comment.id,
                 Comment = comment.TextComment,
-                DateComment = parsedDateComment,
-                DateUpdated = DateTime.UtcNow,
+                DateComment = DateTime.Now,
+                DateUpdated = DateTime.Now,
                 IsDeleted = false,
                 UserId = comment.Userid,
                 PostId = comment.PostId
@@ -51,41 +44,50 @@ namespace Instagram.API.Services
 
             await _repository.CreateComments(newComment);
 
+
+
             var viewModel = new CommentsResposeDto
             {
-                id = (int)newComment.Id, 
+                id = newComment.Id,
                 text = newComment.Comment,
-                DateComment = parsedDateComment,
-                DatewUpdate = DateTime.UtcNow,
+                DateComment = DateTime.Now,
+                DateUpdate = DateTime.Now,
                 Userid = newComment.UserId,
                 PostId = newComment.PostId
             };
 
             return viewModel;
-        }
+         }
 
         public async Task UpdateCommentsAsync(CommentsRequestDto comment)
         {
-            if (!DateTime.TryParse(comment.DateComment.ToString(), out var parsedDateComment))
-                throw new Exception("Invalid date format for DateComment");
-
-            var comments = await _repository.GetpostsAsync(comment.id, parsedDateComment);
+            var comments = await _repository.GetpostsAsync((int)comment.id);
             if (comments == null)
                 throw new Exception("Comment not found");
 
-            await _repository.PutCommentsAsync(comment);
+            var updatedComment = new Comments
+            {
+                Id = (long)comment.id,
+                Comment = comment.TextComment,
+                DateUpdated = DateTime.Now,
+                IsDeleted = false,
+                UserId = comment.Userid,
+                PostId = comment.PostId
+            };
+
+            await _repository.PutCommentsAsync(updatedComment);
         }
 
         public async Task DeleteCommentsAsync(CommentsRequestDto ComentsDelete)
         {
-            if (!DateTime.TryParse(ComentsDelete.DateComment.ToString(), out var parsedDateComment))
-                throw new Exception("Invalid date format for DateComment");
+            
+            var commentId = ComentsDelete.id;
 
-            var comments = await _repository.GetpostsAsync(ComentsDelete.id, parsedDateComment);
+            var comments = await _repository.GetpostsAsync((int)commentId);
             if (comments == null)
                 throw new Exception("Comment not found");
 
-            await _repository.DeleteCommentsAsync(ComentsDelete.id, parsedDateComment);
+            await _repository.DeleteCommentsAsync((int)commentId);
         }
     }
 }

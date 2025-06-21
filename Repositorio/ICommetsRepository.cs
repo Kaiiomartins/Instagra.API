@@ -5,12 +5,12 @@ namespace Instagram.API.Repositorio
     public interface ICommetsRepository
     {
 
-        public Task <CommentsResposeDto> GetpostsAsync(int id, DateTime DateComment);
+        public Task <Comments> GetpostsAsync(int id);
 
         public Task CreateComments(Comments comments);
 
-        public Task PutCommentsAsync(CommentsRequestDto commentsRequestDto);
+        public Task PutCommentsAsync(Comments commentsRequestDto);
 
-        public Task DeleteCommentsAsync(int id, DateTime dateTime);
+        public Task DeleteCommentsAsync(int id);
     }
 }

@@ -3,10 +3,10 @@
 	[UserId] [int] NOT NULL,
 	[Description] [nvarchar](max) NULL,
 	[Type] [nvarchar](50) NOT NULL,
-	[CreateAt] [datetime] NOT NULL,
+	[CreatedAt] [datetime] NOT NULL,
 	[ImageBytes] [varbinary](max) NULL, 
 	[IsDeleted][Bite] NOT NULL,
-	[IsDeletedAt][DateTime]
+	[DeletedAt][DateTime]
     CONSTRAINT [PK_Posts] PRIMARY KEY ([Id]), 
     CONSTRAINT [FK_Users] FOREIGN KEY ([UserId]) REFERENCES Users([Id])
 ) 

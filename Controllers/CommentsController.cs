@@ -20,23 +20,16 @@ namespace Instagram.API.Controllers
         {
             var comments = await _commentsService.GetCommentsAsync(comment);
             if (comments == null)
-                return NotFound(new { mensagem = "Not found " });
+                return NotFound();
             return Ok(comments);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateComment([FromBody] CommentsRequestDto Comments) 
         {
-            var commentRequestDto = new CommentsRequestDto
-            {
-                id = (int)Comments.id,
-                DateComment = Comments.DateComment ?? string.Empty,
-                Userid = Comments.Userid,
-                PostId = Comments.PostId,
-            };
-
-            var newComment = await _commentsService.CreateCommentsAsync(commentRequestDto);
-            return CreatedAtAction(nameof(GetComments), new { id = newComment.id }, newComment); 
+         
+            var newComment = await _commentsService.CreateCommentsAsync(Comments);
+            return Ok(newComment);
         }
 
         [HttpPut]
@@ -44,7 +37,7 @@ namespace Instagram.API.Controllers
         {
             var existingComment = await _commentsService.GetCommentsAsync(comment);
             if (existingComment == null)
-                return NotFound(new { mensagem = "Comentário não encontrado." });
+                return NotFound();
             await _commentsService.UpdateCommentsAsync(comment);
             return NoContent();
         }
@@ -54,7 +47,7 @@ namespace Instagram.API.Controllers
         {
             var existingComment = await _commentsService.GetCommentsAsync(ComentsDelete);
             if (existingComment == null)
-                return NotFound(new { mensagem = "Comentário não encontrado." });
+                return NotFound();
             await _commentsService.DeleteCommentsAsync(ComentsDelete);
             return NoContent();
         }
