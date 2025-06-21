@@ -10,6 +10,7 @@ namespace Instagram.API.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Posts> Posts { get; set; }
 
+        public DbSet<Comments> Comments { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -24,6 +25,7 @@ namespace Instagram.API.Data
                 .HasOne(p => p.User)
                 .WithMany()
                 .HasForeignKey(p => p.UserId);
+        
         }
     }
 }

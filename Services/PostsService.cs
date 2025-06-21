@@ -30,7 +30,7 @@ namespace Instagram.API.Services
             {
                 UserName = post.User.UserName,
                 Description = post.Description,
-                CreatedAt = post.PostDate,
+                CreatedAt = post.CreatedAt,
                 ImageBase64 = post.ImageBytes != null ? Convert.ToBase64String(post.ImageBytes) : null
             });
 
@@ -47,7 +47,7 @@ namespace Instagram.API.Services
             {
                 Id = post.Id,
                 Description = post.Description,
-                CreatedAt = post.PostDate,
+                CreatedAt = post.CreatedAt,
                 ImageBase64 = post.ImageBytes != null ? Convert.ToBase64String(post.ImageBytes) : null
             };
         }
@@ -74,9 +74,10 @@ namespace Instagram.API.Services
             var post = new Posts
             {
                 Description = postDto.Description,
-                PostDate = DateTime.Now,
+                CreatedAt = DateTime.Now,
                 UserId = user.Id,
-                PostType = postDto.PostType,
+                Type = postDto.Type,
+                IsDeleted = false,
                 ImageBytes = imageBytes
             };
 

@@ -13,9 +13,13 @@ namespace Instagram.API.Models
 
         public byte[]? ImageBytes { get; set; }
 
-        public string PostType { get; set; }
+        public string Type { get; set; }
 
-        public DateTime PostDate { get; set; }
+        public DateTime CreatedAt { get; set; }
+
+        public Boolean IsDeleted { get; set; }
+        
+        public DateTime? IsDeletedAt { get; set; } 
 
         [ForeignKey("User")]
         public int UserId { get; set; }
